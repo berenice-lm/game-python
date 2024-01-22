@@ -64,46 +64,46 @@ class Option:
         self.on1_display = True
         self.off1_display = False
         
-        self.button1 = ButtonO('Système', 300, 50, (40, 100), 1)
-        self.button2 = ButtonO('Audio', 300, 50, (80, 190), 2)
-        self.button3 = ButtonO('Vidéo', 300, 50, (120, 280), 3)
-        self.button4 = ButtonO('Interface', 300, 50, (160, 370), 4)
-        self.button5 = ButtonO('Paramètres', 300, 50, (200, 460), 5)
-        self.button6 = ButtonO('Commandes', 300, 50, (240, 550), 6)
-        self.button7 = ButtonO('Langue', 300, 50, (280, 640), 7)
-        self.button8 = ButtonO('Gameplay', 300, 50, (320, 730), 8)
-        self.button1_1 = ButtonInside('Système', 100, 50, (510, 150), 1_1)
-        self.button1_2 = ButtonInside('Système2', 340, 45, (390, 250), 1_2)
-        self.button1_3 = ButtonInside('Système3', 320, 45, (400, 310), 1_3)
-        self.button1_4 = ButtonInside('Système4', 240, 45, (440, 370), 1_4)
-        self.button2_1 = ButtonInside('Audio', 100, 50, (510, 150), 2_1)
-        self.button2_2 = ButtonInside('Audio1', 340, 45, (390, 250), 2_2)
-        self.button2_3 = ButtonInside('Audio2', 320, 45, (400, 310), 2_3)
-        self.button2_4 = ButtonInside('Audio3', 240, 45, (440, 370), 2_4)
-        self.button3_1 = ButtonInside('Vidéo', 100, 50, (510, 150), 3_1)
-        self.button3_2 = ButtonInside('Vidéo1', 340, 45, (390, 250), 3_2)
-        self.button3_3 = ButtonInside('Vidéo2', 320, 45, (400, 310), 3_3)
-        self.button3_4 = ButtonInside('Vidéo3', 240, 45, (440, 370), 3_4)
-        self.button4_1 = ButtonInside('Interface', 100, 50, (510, 150), 4_1)
-        self.button4_2 = ButtonInside('Interface1', 340, 45, (390, 250), 4_2)
-        self.button4_3 = ButtonInside('Interface2', 320, 45, (400, 310), 4_3)
-        self.button4_4 = ButtonInside('Interface3', 240, 45, (440, 370), 4_4)
-        self.button5_1 = ButtonInside('Paramètres', 100, 50, (510, 150), 5_1)
-        self.button5_2 = ButtonInside('Paramètres1', 340, 45, (390, 250), 5_2)
-        self.button5_3 = ButtonInside('Paramètres2', 320, 45, (400, 310), 5_3)
-        self.button5_4 = ButtonInside('Paramètres3', 240, 45, (440, 370), 5_4)
-        self.button6_1 = ButtonInside('Commandes', 100, 50, (510, 150), 6_1)
-        self.button6_2 = ButtonInside('Commandes1', 340, 45, (390, 250), 6_2)
-        self.button6_3 = ButtonInside('Commandes2', 320, 45, (400, 310), 6_3)
-        self.button6_4 = ButtonInside('Commandes3', 240, 45, (440, 370), 6_4)
-        self.button7_1 = ButtonInside('Langue', 100, 50, (510, 150), 7_1)
-        self.button7_2 = ButtonInside('Langage', 340, 45, (390, 250), 7_2)
-        self.button7_3 = ButtonInside('Sous-titres', 320, 45, (400, 310), 7_3)
-        self.button7_4 = ButtonInside('Correcteur', 240, 45, (440, 370), 7_4)
-        self.button8_1 = ButtonInside('Gameplay', 100, 50, (510, 150), 8_1)
-        self.button8_2 = ButtonInside('Gameplay1', 340, 45, (390, 250), 8_2)
-        self.button8_3 = ButtonInside('Gameplay2', 320, 45, (400, 310), 8_3)
-        self.button8_4 = ButtonInside('Gameplay3', 240, 45, (440, 370), 8_4)
+        self.button1 = ButtonO('Système', 300, 50, (80, 140), 1)
+        self.button2 = ButtonO('Audio', 300, 50, (120, 230), 2)
+        self.button3 = ButtonO('Vidéo', 300, 50, (160, 320), 3)
+        self.button4 = ButtonO('Interface', 300, 50, (200, 410), 4)
+        self.button5 = ButtonO('Paramètres', 300, 50, (240, 500), 5)
+        self.button6 = ButtonO('Commandes', 300, 50, (280, 590), 6)
+        self.button7 = ButtonO('Langue', 300, 50, (320, 680), 7)
+        self.button8 = ButtonO('Gameplay', 300, 50, (360, 770), 8)
+        self.button1_1 = ButtonInside('Système', 100, 50, (1000, 250), 1_1)
+        self.button1_2 = ButtonInside('Système2', 590, 65, (765, 410), 1_2)
+        self.button1_3 = ButtonInside('Système3', 570, 65, (775, 510), 1_3)
+        self.button1_4 = ButtonInside('Système4', 500, 65, (810, 610), 1_4)
+        self.button2_1 = ButtonInside('Audio', 100, 50, (1000, 250), 2_1)
+        self.button2_2 = ButtonInside('Audio1', 590, 65, (765, 410), 2_2)
+        self.button2_3 = ButtonInside('Audio2', 570, 65, (775, 510), 2_3)
+        self.button2_4 = ButtonInside('Audio3', 500, 65, (810, 610), 2_4)
+        self.button3_1 = ButtonInside('Vidéo', 100, 50, (1000, 250), 3_1)
+        self.button3_2 = ButtonInside('Vidéo1', 590, 65, (765, 410), 3_2)
+        self.button3_3 = ButtonInside('Vidéo2', 570, 65, (775, 510), 3_3)
+        self.button3_4 = ButtonInside('Vidéo3', 500, 65, (810, 610), 3_4)
+        self.button4_1 = ButtonInside('Interface', 100, 50, (1000, 250), 4_1)
+        self.button4_2 = ButtonInside('Interface1', 590, 65, (765, 410), 4_2)
+        self.button4_3 = ButtonInside('Interface2', 570, 65, (775, 510), 4_3)
+        self.button4_4 = ButtonInside('Interface3', 500, 65, (810, 610), 4_4)
+        self.button5_1 = ButtonInside('Paramètres', 100, 50, (1000, 250), 5_1)
+        self.button5_2 = ButtonInside('Paramètres1', 590, 65, (765, 410), 5_2)
+        self.button5_3 = ButtonInside('Paramètres2', 570, 65, (775, 510), 5_3)
+        self.button5_4 = ButtonInside('Paramètres3', 500, 65, (810, 610), 5_4)
+        self.button6_1 = ButtonInside('Commandes', 100, 50, (1000, 250), 6_1)
+        self.button6_2 = ButtonInside('Commandes1', 590, 65, (765, 410), 6_2)
+        self.button6_3 = ButtonInside('Commandes2', 570, 65, (775, 510), 6_3)
+        self.button6_4 = ButtonInside('Commandes3', 500, 65, (810, 610), 6_4)
+        self.button7_1 = ButtonInside('Langue', 100, 50, (1000, 250), 7_1)
+        self.button7_2 = ButtonInside('Langage', 590, 65, (765, 410), 7_2)
+        self.button7_3 = ButtonInside('Sous-titres', 570, 65, (775, 510), 7_3)
+        self.button7_4 = ButtonInside('Correcteur', 500, 65, (810, 610), 7_4)
+        self.button8_1 = ButtonInside('Gameplay', 100, 50, (1000, 250), 8_1)
+        self.button8_2 = ButtonInside('Gameplay1', 590, 65, (765, 410), 8_2)
+        self.button8_3 = ButtonInside('Gameplay2', 570, 65, (775, 510), 8_3)
+        self.button8_4 = ButtonInside('Gameplay3', 500, 65, (810, 610), 8_4)
 
         self.current_index = 0
         self.text_dictionary = {
@@ -155,7 +155,6 @@ class Option:
             else:
                 if self.pressed == True:
                     self.pressed = False
-                    # FadeTransitionScene(self, self.gameStateManager.set_state('menu'))
                     self.gameStateManager.set_state('menu')
 
         if self.button1.top_rect.collidepoint(pos) and pygame.mouse.get_pressed()[0]:
@@ -237,75 +236,15 @@ class Option:
             self.show_chat_blanc7 = False
             self.show_chat_blanc2 = False
             self.show_chat_blanc8 = True
-        
-        if self.show_chat_blanc1:
-            chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
-            chat_blanc_size = pygame.transform.scale(chat_blanc, (380, 400))
-            chat_blanc_size.set_alpha(150)
-            self.screen.blit(chat_blanc_size, (370, 70))
-            self.button1_1.draw(self.screen)
-            self.button1_2.draw(self.screen)
-            self.button1_3.draw(self.screen)
-            self.button1_4.draw(self.screen)
-        
-        if self.show_chat_blanc2:
-            chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
-            chat_blanc_size = pygame.transform.scale(chat_blanc, (380, 400))
-            chat_blanc_size.set_alpha(150)
-            self.screen.blit(chat_blanc_size, (370, 70))
-            self.button2_1.draw(self.screen)
-            self.button2_2.draw(self.screen)
-            self.button2_3.draw(self.screen)
-            self.button2_4.draw(self.screen)
-
-        if self.show_chat_blanc3:
-            chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
-            chat_blanc_size = pygame.transform.scale(chat_blanc, (380, 400))
-            chat_blanc_size.set_alpha(150)
-            self.screen.blit(chat_blanc_size, (370, 70))
-            self.button3_1.draw(self.screen)
-            self.button3_2.draw(self.screen)
-            self.button3_3.draw(self.screen)
-            self.button3_4.draw(self.screen)
-        
-        if self.show_chat_blanc4:
-            chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
-            chat_blanc_size = pygame.transform.scale(chat_blanc, (380, 400))
-            chat_blanc_size.set_alpha(150)
-            self.screen.blit(chat_blanc_size, (370, 70))
-            self.button4_1.draw(self.screen)
-            self.button4_2.draw(self.screen)
-            self.button4_3.draw(self.screen)
-            self.button4_4.draw(self.screen)
-
-        if self.show_chat_blanc5:
-            chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
-            chat_blanc_size = pygame.transform.scale(chat_blanc, (380, 400))
-            chat_blanc_size.set_alpha(150)
-            self.screen.blit(chat_blanc_size, (370, 70))
-            self.button5_1.draw(self.screen)
-            self.button5_2.draw(self.screen)
-            self.button5_3.draw(self.screen)
-            self.button5_4.draw(self.screen)
-        
-        if self.show_chat_blanc6:
-            chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
-            chat_blanc_size = pygame.transform.scale(chat_blanc, (380, 400))
-            chat_blanc_size.set_alpha(150)
-            self.screen.blit(chat_blanc_size, (370, 70))
-            self.button6_1.draw(self.screen)
-            self.button6_2.draw(self.screen)
-            self.button6_3.draw(self.screen)
-            self.button6_4.draw(self.screen)
 
         def button_on_off():
             font_path = "dialogs/Catalina.ttf"
             self.gui_font = pygame.font.Font(font_path, 20)
             pygame.display.set_caption('Gui Menu')
             button_on = pygame.Surface((50, 36), pygame.SRCALPHA)
-            button_off = pygame.Surface((50, 36), pygame.SRCALPHA)
+            button_off = pygame.Surface((50, 39), pygame.SRCALPHA)
             button_on1 = pygame.Surface((50, 36), pygame.SRCALPHA)
-            button_off1 = pygame.Surface((50, 36), pygame.SRCALPHA)
+            button_off1 = pygame.Surface((50, 39), pygame.SRCALPHA)
             pygame.draw.rect(button_on, 'white', button_on.get_rect(), border_radius=12)
             pygame.draw.rect(button_off, 'black', button_off.get_rect(), border_radius=12)
             pygame.draw.rect(button_on1, 'white', button_on1.get_rect(), border_radius=12)
@@ -314,34 +253,35 @@ class Option:
             self.text_surf3 = self.gui_font.render('on', True, "white")
             self.text_surf2 = self.gui_font.render('off', True, "white")
             self.text_surf4 = self.gui_font.render('off', True, "black")
-            self.text_rect1 = self.text_surf1.get_rect(topleft=(640, 375))
-            self.text_rect2 = self.text_surf2.get_rect(topleft=(588, 374))
-            self.text_rect3 = self.text_surf1.get_rect(topleft=(680, 314))
-            self.text_rect4 = self.text_surf2.get_rect(topleft=(628, 314))
+            self.text_rect1 = self.text_surf1.get_rect(topleft=(1250, 625))
+            self.text_rect2 = self.text_surf2.get_rect(topleft=(1200, 625))
+            self.text_rect3 = self.text_surf1.get_rect(topleft=(1291, 525))
+            self.text_rect4 = self.text_surf2.get_rect(topleft=(1220, 525))
             
             if self.on_display:
-                self.screen.blit(button_on, (625, 375))
-                self.screen.blit(button_off, (575, 375))
                 self.screen.blit(self.text_surf1, self.text_rect1)
                 self.screen.blit(self.text_surf2, self.text_rect2)
+                self.screen.blit(button_on, (1277, 525))
+                self.screen.blit(button_off, (1205, 525))
             
             if self.off_display:
-                self.screen.blit(button_off, (625, 375))
-                self.screen.blit(button_on, (575, 375))
                 self.screen.blit(self.text_surf4, self.text_rect2)
                 self.screen.blit(self.text_surf3, self.text_rect1)
+                self.screen.blit(button_off, (1277, 525))
+                self.screen.blit(button_on, (1205, 525))
 
             if self.on1_display:
-                self.screen.blit(button_on1, (665, 314))
-                self.screen.blit(button_off1, (615, 314))
                 self.screen.blit(self.text_surf1, self.text_rect3)
                 self.screen.blit(self.text_surf2, self.text_rect4)
+                self.screen.blit(button_on1, (1257, 625))
+                # self.screen.blit(button_off1, (1185, 625))
+                self.screen.blit(button_off1, (1180, 625))
             
             if self.off1_display:
-                self.screen.blit(button_off1, (665, 314))
-                self.screen.blit(button_on1, (615, 314))
                 self.screen.blit(self.text_surf4, self.text_rect4)
                 self.screen.blit(self.text_surf3, self.text_rect3)
+                self.screen.blit(button_off1, (1257, 625))
+                self.screen.blit(button_on1, (1185, 625))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -350,9 +290,9 @@ class Option:
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     x, y = event.pos
                     button_on_rect = pygame.Rect(625, 375, 50, 36)
-                    button_off_rect = pygame.Rect(575, 375, 50, 36)
+                    button_off_rect = pygame.Rect(575, 375, 50, 39)
                     button_on1_rect = pygame.Rect(665, 314, 50, 36)
-                    button_off1_rect = pygame.Rect(615, 314, 50, 36)
+                    button_off1_rect = pygame.Rect(615, 314, 50, 39)
                     if button_on_rect.collidepoint(x, y):
                         self.on_display = not self.on_display
                         self.off_display = not self.off_display
@@ -382,23 +322,83 @@ class Option:
 
             text_dict = self.text_dictionary[self.current_index]
             text_dict_surf = gui_font.render(text_dict, True, "white")
-            text_rect = text_dict_surf.get_rect(topleft=(620, 256))
+            text_rect = text_dict_surf.get_rect(topleft=(1230, 425))
             self.screen.blit(text_dict_surf, text_rect)
 
             fleche1 = pygame.image.load('map/fleche1.png').convert_alpha()
             fleche1_size = pygame.transform.scale(fleche1, (20, 20))
-            self.screen.blit(fleche1_size, (700, 262))
+            self.screen.blit(fleche1_size, (1320, 432))
 
             fleche2 = pygame.image.load('map/fleche2.png').convert_alpha()
             fleche2_size = pygame.transform.scale(fleche2, (20, 20))
-            self.screen.blit(fleche2_size, (582, 262))
+            self.screen.blit(fleche2_size, (1180, 432))
+        
+        if self.show_chat_blanc1:
+            chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
+            chat_blanc_size = pygame.transform.scale(chat_blanc, (680, 700))
+            chat_blanc_size.set_alpha(150)
+            self.screen.blit(chat_blanc_size, (720, 120))
+            self.button1_1.draw(self.screen)
+            self.button1_2.draw(self.screen)
+            self.button1_3.draw(self.screen)
+            self.button1_4.draw(self.screen)
+        
+        if self.show_chat_blanc2:
+            chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
+            chat_blanc_size = pygame.transform.scale(chat_blanc, (680, 700))
+            chat_blanc_size.set_alpha(150)
+            self.screen.blit(chat_blanc_size, (720, 120))
+            self.button2_1.draw(self.screen)
+            self.button2_2.draw(self.screen)
+            self.button2_3.draw(self.screen)
+            self.button2_4.draw(self.screen)
+
+        if self.show_chat_blanc3:
+            chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
+            chat_blanc_size = pygame.transform.scale(chat_blanc, (680, 700))
+            chat_blanc_size.set_alpha(150)
+            self.screen.blit(chat_blanc_size, (720, 120))
+            self.button3_1.draw(self.screen)
+            self.button3_2.draw(self.screen)
+            self.button3_3.draw(self.screen)
+            self.button3_4.draw(self.screen)
+        
+        if self.show_chat_blanc4:
+            chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
+            chat_blanc_size = pygame.transform.scale(chat_blanc, (680, 700))
+            chat_blanc_size.set_alpha(150)
+            self.screen.blit(chat_blanc_size, (720, 120))
+            self.button4_1.draw(self.screen)
+            self.button4_2.draw(self.screen)
+            self.button4_3.draw(self.screen)
+            self.button4_4.draw(self.screen)
+
+        if self.show_chat_blanc5:
+            chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
+            chat_blanc_size = pygame.transform.scale(chat_blanc, (680, 700))
+            chat_blanc_size.set_alpha(150)
+            self.screen.blit(chat_blanc_size, (720, 120))
+            self.button5_1.draw(self.screen)
+            self.button5_2.draw(self.screen)
+            self.button5_3.draw(self.screen)
+            self.button5_4.draw(self.screen)
+        
+        if self.show_chat_blanc6:
+            chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
+            chat_blanc_size = pygame.transform.scale(chat_blanc, (680, 700))
+            chat_blanc_size.set_alpha(150)
+            self.screen.blit(chat_blanc_size, (720, 120))
+            self.button6_1.draw(self.screen)
+            self.button6_2.draw(self.screen)
+            self.button6_3.draw(self.screen)
+            self.button6_4.draw(self.screen)
 
         if self.show_chat_blanc7:
             chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
-            chat_blanc_size = pygame.transform.scale(chat_blanc, (380, 400))
+            chat_blanc_size = pygame.transform.scale(chat_blanc, (680, 700))
             chat_blanc_size.set_alpha(150)
 
-            self.screen.blit(chat_blanc_size, (370, 70))
+            self.screen.blit(chat_blanc_size, (720, 120))
 
             self.button7_1.draw(self.screen)
             self.button7_2.draw(self.screen)
@@ -410,9 +410,9 @@ class Option:
         
         if self.show_chat_blanc8:
             chat_blanc = pygame.image.load('map/chat_noir.png').convert_alpha()
-            chat_blanc_size = pygame.transform.scale(chat_blanc, (380, 400))
+            chat_blanc_size = pygame.transform.scale(chat_blanc, (680, 700))
             chat_blanc_size.set_alpha(150)
-            self.screen.blit(chat_blanc_size, (370, 70))
+            self.screen.blit(chat_blanc_size, (720, 120))
             self.button8_1.draw(self.screen)
             self.button8_2.draw(self.screen)
             self.button8_3.draw(self.screen)
