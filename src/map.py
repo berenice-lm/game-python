@@ -1,0 +1,205 @@
+from dataclasses import dataclass
+import pygame, pytmx, pyscroll
+from player import NPC
+from player import Panneau
+
+@dataclass
+class Portal:
+    from_world: str
+    origin_point: str
+    target_world: str
+    teleport_point: str
+
+@dataclass #decorateur absorbé par la classe dessous (init aussi)
+class Map :
+    name: str
+    walls: list[pygame.Rect]
+    # panneaucoll: list[pygame.Rect]
+    group: pyscroll.PyscrollGroup
+    tmx_data: pytmx.TiledMap
+    portals: list[Portal]
+    npcs: list[NPC]
+    panneaux: list[Panneau]
+
+class MapManager:
+
+    def __init__(self, screen, player):
+        self.maps = dict() #pour stocker plusieurs cartes : "house" -> Map("house", walls, group)
+        self.screen = screen
+        self.player = player
+        # self.player = AnimatedCat(x=0, y=0)
+        self.current_map = "world"
+        self.dialog_box_triggered = False
+
+        self.register_map("world", portals=[
+            Portal(from_world="world", origin_point="enter_house", target_world="house", teleport_point="spawn_house"),
+            Portal(from_world="world", origin_point="enter_house2", target_world="house2", teleport_point="spawn_house"),
+            Portal(from_world="world", origin_point="enter_dungeon", target_world="dungeon", teleport_point="spawn_dungeon"),
+            Portal(from_world="world", origin_point="enter_map2", target_world="labyrinthe", teleport_point="spawn_map2")
+        ], npcs=[
+            # NPC("paul", nb_points=4, dialog=["Saluuuut, t'arrives à faire tes tests ?", "Wesh", "love you <3"]),
+            NPC("papy", nb_points=4, dialog=["Saluuuut, t'arrives à faire tes tests ?", "Wesh", "love you <3"]),
+            NPC("red", nb_points=1, dialog=["Yooo"]),
+            NPC("cat_round", nb_points=1, dialog=["Yooo"]),
+            # NPC("robin", nb_points=2, dialog=["Yo !", "sa va ?"]),
+            NPC("smoke", nb_points=1, dialog=["pchhhhhhhh"])
+        ], panneaux=[
+            Panneau("panneau", nb_points=1, dialog=["N'allez pas par là !"])
+        ])
+        self.register_map("house", portals=[
+            Portal(from_world="house", origin_point="exit_house", target_world="world", teleport_point="enter_house_exit")
+        ])
+        self.register_map("house2", portals=[
+            Portal(from_world="house2", origin_point="exit_house", target_world="world", teleport_point="exit_house2")
+        ])
+        self.register_map("dungeon", portals=[
+            Portal(from_world="dungeon", origin_point="exit_dungeon", target_world="world", teleport_point="dungeon_exit_spawn")
+        ], npcs=[
+            # NPC("boss", nb_points=2, dialog=["Mouhahahahah", "T'aurais pas du sh*t ?"])
+        ])
+        self.register_map("labyrinthe", portals=[
+            Portal(from_world="labyrinthe", origin_point="exit_map2", target_world="world", teleport_point="exit_map2_spawn"),
+            Portal(from_world="labyrinthe", origin_point="exit_map22", target_world="world", teleport_point="exit_map2_spawn")
+        ])
+        self.teleport_player("player")
+        self.teleport_npcs()
+    
+    # def draw_speech_bubble(screen, text, text_colour, bg_colour, pos, size):
+    #     font = pygame.font.SysFont(None, size)
+    #     text_surface = font.render(text, True, text_colour)
+    #     text_rect = text_surface.get_rect(midbottom=pos)
+
+    #     #background
+    #     bg_rect = text_rect.copy()
+    #     bg_rect.inflate_ip(10, 10) # augmente portee de 10 px a gauche et droite
+
+    #     #frame
+    #     frame_rect = bg_rect.copy()
+    #     frame_rect.inflate_ip(4, 4)
+
+    #     pygame.fraw.rect(screen, text_colour, frame_rect)
+    #     pygame.draw.rect(screen, bg_colour, bg_rect)
+    #     screen.blit(text_surface, text_rect)
+
+    def check_npc_collision(self, dialog_box):
+        enlarged_player_rect = self.player.rect.inflate(10, 10)
+        if not self.dialog_box_triggered:
+            for sprite in self.get_group().sprites():
+                if sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau)):
+                    if not dialog_box.is_reading():
+                        dialog_box.execute(sprite.dialog)
+
+                    else:
+                        if dialog_box.is_reading():
+                            dialog_box.close()
+
+            # elif not sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau)):
+            #     if dialog_box.is_reading():
+            #         dialog_box.close()
+    
+    def reset_dialog_box(self):
+        self.dialog_box_triggered = False
+
+    def close_npc_collision(self, dialog_box):
+        enlarged_player_rect = self.player.rect.inflate(10, 10)
+    
+        for sprite in self.get_group().sprites():
+            if not (sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau))):
+                dialog_box.next_text()
+                dialog_box.close()
+
+    def check_collisions(self):
+        # portails
+        for portal in self.get_map().portals:
+            if portal.from_world == self.current_map:
+                point = self.get_object(portal.origin_point)
+                rect = pygame.Rect(point.x, point.y, point.width, point.height)
+
+                if self.player.feet.colliderect(rect):
+                    copy_portal = portal
+                    self.current_map = portal.target_world
+                    self.teleport_player(copy_portal.teleport_point)
+        
+        # collisions
+        for sprite in self.get_group().sprites():
+            if sprite.feet.collidelist(self.get_walls()) > -1:
+                sprite.move_back()
+
+            if type(sprite) is NPC:
+                enlarged_player_rect = self.player.rect.inflate(10, 10)
+                
+                if sprite.feet.colliderect(self.player.rect):
+                    self.player.move_back()
+                
+                if sprite.feet.colliderect(enlarged_player_rect):
+                    sprite.speed = 0
+
+                else:
+                    sprite.speed = 1
+
+    def teleport_player(self, name):
+        point = self.get_object(name)
+        self.player.position[0] = point.x
+        self.player.position[1] = point.y
+        self.player.save_location()
+    
+    def register_map(self, name, portals=[], npcs=[], panneaux=[]):
+        # charger la carte (tmx)
+        tmx_data = pytmx.util_pygame.load_pygame(f"map/{name}.tmx")
+        map_data = pyscroll.data.TiledMapData(tmx_data)
+        map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
+        map_layer.zoom = 3
+
+        # definir liste qui stocke les rectangles de collision
+        walls = []
+
+        for obj in tmx_data.objects:
+            if obj.type == "collision":
+                walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+
+        # dessiner le groupe de calques
+        group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=7)
+        group.add(self.player)
+
+        # recuperer tous les npcs pour les ajouter au groupe
+        for npc in npcs:
+            group.add(npc)
+
+        for panneau in panneaux:
+            group.add(panneau)
+
+        # creer un objet Map
+        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs, panneaux)
+
+    def get_map(self): return self.maps[self.current_map]
+
+    def get_group(self): return self.get_map().group
+
+    def get_walls(self): return self.get_map().walls
+
+    def get_object(self, name): return self.get_map().tmx_data.get_object_by_name(name)
+
+    def teleport_npcs(self):
+        for map in self.maps:
+            map_data = self.maps[map]
+            npcs = map_data.npcs
+            panneaux = map_data.panneaux
+
+            for npc in npcs:
+                npc.load_points(map_data.tmx_data)
+                npc.teleport_spawn()
+
+            for panneau in panneaux:
+                panneau. load_points(map_data.tmx_data)
+                panneau.teleport_spawn()
+
+    def draw(self):
+        self.get_group().draw(self.screen)
+        self.get_group().center(self.player.rect.center)
+
+    def update(self):
+        self.get_group().update()
+        self.check_collisions()
+
+        for npc in self.get_map().npcs:
+            npc.move()
