@@ -72,35 +72,35 @@ class Option:
         self.button6 = ButtonO('Commandes', 300, 50, (280, 590), 6)
         self.button7 = ButtonO('Langue', 300, 50, (320, 680), 7)
         self.button8 = ButtonO('Gameplay', 300, 50, (360, 770), 8)
-        self.button1_1 = ButtonInside('Système', 100, 50, (1000, 250), 1_1)
+        self.button1_1 = ButtonInside('Système', 130, 50, (1000, 250), 1_1)
         self.button1_2 = ButtonInside('Système2', 590, 65, (765, 410), 1_2)
         self.button1_3 = ButtonInside('Système3', 570, 65, (775, 510), 1_3)
         self.button1_4 = ButtonInside('Système4', 500, 65, (810, 610), 1_4)
-        self.button2_1 = ButtonInside('Audio', 100, 50, (1000, 250), 2_1)
+        self.button2_1 = ButtonInside('Audio', 130, 50, (1000, 250), 2_1)
         self.button2_2 = ButtonInside('Audio1', 590, 65, (765, 410), 2_2)
         self.button2_3 = ButtonInside('Audio2', 570, 65, (775, 510), 2_3)
         self.button2_4 = ButtonInside('Audio3', 500, 65, (810, 610), 2_4)
-        self.button3_1 = ButtonInside('Vidéo', 100, 50, (1000, 250), 3_1)
+        self.button3_1 = ButtonInside('Vidéo', 130, 50, (1000, 250), 3_1)
         self.button3_2 = ButtonInside('Vidéo1', 590, 65, (765, 410), 3_2)
         self.button3_3 = ButtonInside('Vidéo2', 570, 65, (775, 510), 3_3)
         self.button3_4 = ButtonInside('Vidéo3', 500, 65, (810, 610), 3_4)
-        self.button4_1 = ButtonInside('Interface', 100, 50, (1000, 250), 4_1)
+        self.button4_1 = ButtonInside('Interface', 130, 50, (1000, 250), 4_1)
         self.button4_2 = ButtonInside('Interface1', 590, 65, (765, 410), 4_2)
         self.button4_3 = ButtonInside('Interface2', 570, 65, (775, 510), 4_3)
         self.button4_4 = ButtonInside('Interface3', 500, 65, (810, 610), 4_4)
-        self.button5_1 = ButtonInside('Paramètres', 100, 50, (1000, 250), 5_1)
+        self.button5_1 = ButtonInside('Paramètres', 130, 50, (1000, 250), 5_1)
         self.button5_2 = ButtonInside('Paramètres1', 590, 65, (765, 410), 5_2)
         self.button5_3 = ButtonInside('Paramètres2', 570, 65, (775, 510), 5_3)
         self.button5_4 = ButtonInside('Paramètres3', 500, 65, (810, 610), 5_4)
-        self.button6_1 = ButtonInside('Commandes', 100, 50, (1000, 250), 6_1)
+        self.button6_1 = ButtonInside('Commandes', 130, 50, (1000, 250), 6_1)
         self.button6_2 = ButtonInside('Commandes1', 590, 65, (765, 410), 6_2)
         self.button6_3 = ButtonInside('Commandes2', 570, 65, (775, 510), 6_3)
         self.button6_4 = ButtonInside('Commandes3', 500, 65, (810, 610), 6_4)
-        self.button7_1 = ButtonInside('Langue', 100, 50, (1000, 250), 7_1)
+        self.button7_1 = ButtonInside('Langue', 130, 50, (1000, 250), 7_1)
         self.button7_2 = ButtonInside('Langage', 590, 65, (765, 410), 7_2)
         self.button7_3 = ButtonInside('Sous-titres', 570, 65, (775, 510), 7_3)
         self.button7_4 = ButtonInside('Correcteur', 500, 65, (810, 610), 7_4)
-        self.button8_1 = ButtonInside('Gameplay', 100, 50, (1000, 250), 8_1)
+        self.button8_1 = ButtonInside('Gameplay', 130, 50, (1000, 250), 8_1)
         self.button8_2 = ButtonInside('Gameplay1', 590, 65, (765, 410), 8_2)
         self.button8_3 = ButtonInside('Gameplay2', 570, 65, (775, 510), 8_3)
         self.button8_4 = ButtonInside('Gameplay3', 500, 65, (810, 610), 8_4)
@@ -240,7 +240,6 @@ class Option:
         def button_on_off():
             font_path = "dialogs/Catalina.ttf"
             self.gui_font = pygame.font.Font(font_path, 20)
-            pygame.display.set_caption('Gui Menu')
             button_on = pygame.Surface((50, 36), pygame.SRCALPHA)
             button_off = pygame.Surface((50, 39), pygame.SRCALPHA)
             button_on1 = pygame.Surface((50, 36), pygame.SRCALPHA)
@@ -253,35 +252,34 @@ class Option:
             self.text_surf3 = self.gui_font.render('on', True, "white")
             self.text_surf2 = self.gui_font.render('off', True, "white")
             self.text_surf4 = self.gui_font.render('off', True, "black")
-            self.text_rect1 = self.text_surf1.get_rect(topleft=(1250, 625))
-            self.text_rect2 = self.text_surf2.get_rect(topleft=(1200, 625))
-            self.text_rect3 = self.text_surf1.get_rect(topleft=(1291, 525))
-            self.text_rect4 = self.text_surf2.get_rect(topleft=(1220, 525))
+            self.text_rect1 = self.text_surf1.get_rect(topleft=(1253, 625)) #off B
+            self.text_rect2 = self.text_surf2.get_rect(topleft=(1190, 625)) #on B
+            self.text_rect3 = self.text_surf1.get_rect(topleft=(1291, 525)) #off H
+            self.text_rect4 = self.text_surf2.get_rect(topleft=(1220, 525)) #on H
             
             if self.on_display:
-                self.screen.blit(self.text_surf1, self.text_rect1)
-                self.screen.blit(self.text_surf2, self.text_rect2)
-                self.screen.blit(button_on, (1277, 525))
+                self.screen.blit(button_on, (1277, 525)) 
                 self.screen.blit(button_off, (1205, 525))
+                self.screen.blit(self.text_surf3, self.text_rect4) #on white avec texte on haut
+                self.screen.blit(self.text_surf4, self.text_rect3) #off black avec rect off haut
             
             if self.off_display:
-                self.screen.blit(self.text_surf4, self.text_rect2)
-                self.screen.blit(self.text_surf3, self.text_rect1)
                 self.screen.blit(button_off, (1277, 525))
                 self.screen.blit(button_on, (1205, 525))
+                self.screen.blit(self.text_surf1, self.text_rect4) #on black avec texte on haut
+                self.screen.blit(self.text_surf2, self.text_rect3) #off white avec texte off haut
 
             if self.on1_display:
-                self.screen.blit(self.text_surf1, self.text_rect3)
-                self.screen.blit(self.text_surf2, self.text_rect4)
-                self.screen.blit(button_on1, (1257, 625))
-                # self.screen.blit(button_off1, (1185, 625))
-                self.screen.blit(button_off1, (1180, 625))
+                self.screen.blit(button_on1, (1240, 625)) #c'est le off x)
+                self.screen.blit(button_off1, (1175, 625)) #c'est le on ??
+                self.screen.blit(self.text_surf3, self.text_rect2) #on white avec texte on bas
+                self.screen.blit(self.text_surf4, self.text_rect1) #off black avec texte off bas
             
             if self.off1_display:
-                self.screen.blit(self.text_surf4, self.text_rect4)
-                self.screen.blit(self.text_surf3, self.text_rect3)
-                self.screen.blit(button_off1, (1257, 625))
-                self.screen.blit(button_on1, (1185, 625))
+                self.screen.blit(button_off1, (1240, 625))
+                self.screen.blit(button_on1, (1175, 625))
+                self.screen.blit(self.text_surf1, self.text_rect2) #on black avec texte on bas
+                self.screen.blit(self.text_surf2, self.text_rect1) #off white avec texte off bas
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -289,10 +287,11 @@ class Option:
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     x, y = event.pos
-                    button_on_rect = pygame.Rect(625, 375, 50, 36)
-                    button_off_rect = pygame.Rect(575, 375, 50, 39)
-                    button_on1_rect = pygame.Rect(665, 314, 50, 36)
-                    button_off1_rect = pygame.Rect(615, 314, 50, 39)
+                    button_on_rect = pygame.Rect(1220, 525, 50, 36)
+                    button_off_rect = pygame.Rect(1291, 525, 50, 39)
+                    button_on1_rect = pygame.Rect(1175, 625, 50, 36)
+                    button_off1_rect = pygame.Rect(1240, 625, 50, 39)
+
                     if button_on_rect.collidepoint(x, y):
                         self.on_display = not self.on_display
                         self.off_display = not self.off_display
@@ -309,10 +308,10 @@ class Option:
                         self.on1_display = not self.on1_display
                         self.off1_display = not self.off1_display
                     
-                    elif 700 <= event.pos[0] <= 720 and 262 <= event.pos[1] <= 282:
+                    elif 1320 <= event.pos[0] <= 1340 and 432 <= event.pos[1] <= 462:
                         self.current_index = (self.current_index + 1) % len(self.text_dictionary)
                     
-                    elif 582 <= event.pos[0] <= 602 and 262 <= event.pos[1] <= 282:
+                    elif 1180 <= event.pos[0] <= 1200 and 432 <= event.pos[1] <= 462:
                         self.current_index = (self.current_index - 1) % len(self.text_dictionary)
 
         
@@ -524,20 +523,21 @@ class ButtonInside:
         self.is_pressed = False
         self.original_y_pos = pos[1]
         self.number = number
-        self.bg_color = (43,71,21, 100)
+        self.bg_color = (43,71,21,100)
 
         font_path = "dialogs/Catalina.ttf"
         self.gui_font = pygame.font.Font(font_path, 23)
 
-        pygame.display.set_caption('Gui Menu')
-
         # top rectangle
         self.top_rect = pygame.Rect(pos, (width, height))
-        self.top_color = (0,0,0, 210)
+        self.top_color = (0,0,0,210)
+
+        # calculate the y coord of center position for the text
+        text_center_y = self.top_rect.centery
 
         # text
         self.text_surf = self.gui_font.render(text, True, '#FFFFFF')
-        self.text_rect = self.text_surf.get_rect(topleft=(self.top_rect.x + 15, self.top_rect.y + 5))
+        self.text_rect = self.text_surf.get_rect(center=(self.top_rect.x + 65, text_center_y))
 
     def draw(self, screen):
         
@@ -579,7 +579,7 @@ class ButtonO:
         font_path = "dialogs/Catalina.ttf"
         self.gui_font = pygame.font.Font(font_path, 23)
 
-        pygame.display.set_caption('Gui Menu')
+        # pygame.display.set_caption('Gui Menu')
 
         # top rectangle
         self.top_rect = pygame.Rect(pos, (width, height))
@@ -626,7 +626,7 @@ class ButtonM:
         font_path = "dialogs/Catalina.ttf"
         self.gui_font = pygame.font.Font(font_path, 27)
 
-        pygame.display.set_caption('Gui Menu')
+        # pygame.display.set_caption('Gui Menu')
 
         # top rectangle
         self.top_rect = pygame.Rect(pos, (width, height))
