@@ -61,7 +61,6 @@ class Game:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_f:
                         self.map_manager.check_npc_collision(self.dialog_box)
-                        self.map_manager.check_ms_collision(self.dialog_box)
 
             clock.tick(60)
 

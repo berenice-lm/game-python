@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 import pygame, pytmx, pyscroll
-from player import NPC, Character, Moving_Sprite, Panneau
-from player import Panneau
+from player import NPC, MovingSprite, Panneau
 
 @dataclass
 class Portal:
@@ -18,8 +17,7 @@ class Map :
     tmx_data: pytmx.TiledMap
     portals: list[Portal]
     npcs: list[NPC]
-    # moving_sprites: list[Moving_Sprite]
-    characters: list[Character]
+    movingsprites: list[MovingSprite]
     panneaux: list[Panneau]
 
 class MapManager:
@@ -43,10 +41,10 @@ class MapManager:
             NPC("cat_round", nb_points=1, dialog=["Yooo"]),
             # NPC("robin", nb_points=2, dialog=["Yo !", "sa va ?"]),
             # NPC("smoke", nb_points=1, dialog=["pchhhhhhhh"])
-        ], characters=[
+        ], movingsprites=[
             # Moving_Sprite("smoke", nb_points=1, nb_images=19)
             # Character("smoke", nb_points=1, dialog=["pchhhhhhhh"])
-            Character("smoke", 200, 400)
+            MovingSprite("smoke", 270, 367)
         ], panneaux=[
             Panneau("panneau", nb_points=1, dialog=["N'allez pas par là !"])
         ])
@@ -67,7 +65,6 @@ class MapManager:
         ])
         self.teleport_player("player")
         self.teleport_npcs()
-        # self.teleport_moving_sprites()
         # self.teleport_panneaux()
     
     def check_npc_collision(self, dialog_box):
@@ -85,18 +82,6 @@ class MapManager:
             # elif not sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau)):
             #     if dialog_box.is_reading():
             #         dialog_box.close()
-                            
-    def check_ms_collision(self, dialog_box):
-        enlarged_player_rect = self.player.rect.inflate(10, 10)
-        if not self.dialog_box_triggered:
-            for sprite in self.get_group().sprites():
-                if sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (Character)):
-                    if not dialog_box.is_reading():
-                        dialog_box.execute(sprite.dialog)
-
-                    else:
-                        if dialog_box.is_reading():
-                            dialog_box.close()
     
     def reset_dialog_box(self):
         self.dialog_box_triggered = False
@@ -138,17 +123,17 @@ class MapManager:
                 else:
                     sprite.speed = 1
             
-            if type(sprite) is Moving_Sprite:
-                enlarged_player_rect = self.player.rect.inflate(10, 10)
+            # if type(sprite) is Moving_Sprite:
+            #     enlarged_player_rect = self.player.rect.inflate(10, 10)
                 
-                if sprite.feet.colliderect(self.player.rect):
-                    self.player.move_back()
+            #     if sprite.feet.colliderect(self.player.rect):
+            #         self.player.move_back()
                 
-                if sprite.feet.colliderect(enlarged_player_rect):
-                    sprite.speed = 0
+            #     if sprite.feet.colliderect(enlarged_player_rect):
+            #         sprite.speed = 0
 
-                else:
-                    sprite.speed = 1
+            #     else:
+            #         sprite.speed = 1
 
     def teleport_player(self, name):
         point = self.get_object(name)
@@ -156,7 +141,7 @@ class MapManager:
         self.player.position[1] = point.y
         self.player.save_location()
     
-    def register_map(self, name, portals=[], npcs=[], characters=[], panneaux=[]):
+    def register_map(self, name, portals=[], npcs=[], movingsprites=[], panneaux=[]):
         # charger la carte (tmx)
         tmx_data = pytmx.util_pygame.load_pygame(f"map/{name}.tmx")
         map_data = pyscroll.data.TiledMapData(tmx_data)
@@ -178,8 +163,8 @@ class MapManager:
         for npc in npcs:
             group.add(npc)
 
-        for character in characters:
-            group.add(character)
+        for movingsprite in movingsprites:
+            group.add(movingsprite)
 
         for panneau in panneaux:
             group.add(panneau)
@@ -188,7 +173,7 @@ class MapManager:
         #     group.add(moving_sprite)
 
         # creer un objet Map
-        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs, characters, panneaux)
+        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs, movingsprites, panneaux)
 
     def get_map(self): return self.maps[self.current_map]
 
@@ -202,26 +187,14 @@ class MapManager:
         for map in self.maps:
             map_data = self.maps[map]
             npcs = map_data.npcs
-            characters = map_data.characters
-            # panneaux = map_data.panneaux
-            # moving_sprites = map_data.moving_sprites
 
             for npc in npcs:
                 npc.load_points(map_data.tmx_data)
                 npc.teleport_spawn()
             
-            for character in characters:
-                character.load_points(map_data.tmx_data)
-                character.teleport_spawn()
-            
             # for panneau in panneaux:
             #     panneau.load_points_P(map_data.tmx_data)
             #     panneau.teleport_spawn_P()
-            
-            # for moving_sprite in moving_sprites:
-            #     moving_sprite.load_points(map_data.tmx_data)
-            #     moving_sprite.teleport_spawn()
-
     
     # def teleport_panneaux(self):
     #     for map in self.maps:
@@ -252,8 +225,8 @@ class MapManager:
         for npc in self.get_map().npcs:
             npc.move()
         
-        for character in self.get_map().characters:
-            character.move_idle()
+        for movingsprite in self.get_map().movingsprites:
+            movingsprite.move_idle()
 
         # for moving_sprite in self.get_map().moving_sprites:
         #     moving_sprite.move_idle()
