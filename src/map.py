@@ -187,14 +187,15 @@ class MapManager:
         for map in self.maps:
             map_data = self.maps[map]
             npcs = map_data.npcs
+            panneaux = map_data.panneaux
 
             for npc in npcs:
                 npc.load_points(map_data.tmx_data)
                 npc.teleport_spawn()
             
-            # for panneau in panneaux:
-            #     panneau.load_points_P(map_data.tmx_data)
-            #     panneau.teleport_spawn_P()
+            for panneau in panneaux:
+                panneau.load_points_P(map_data.tmx_data)
+                panneau.teleport_spawn_P()
     
     # def teleport_panneaux(self):
     #     for map in self.maps:
