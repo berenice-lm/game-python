@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import pygame, pytmx, pyscroll
-from player import NPC
+from player import NPC, Character, Moving_Sprite, Panneau
 from player import Panneau
 
 @dataclass
@@ -14,11 +14,12 @@ class Portal:
 class Map :
     name: str
     walls: list[pygame.Rect]
-    # panneaucoll: list[pygame.Rect]
     group: pyscroll.PyscrollGroup
     tmx_data: pytmx.TiledMap
     portals: list[Portal]
     npcs: list[NPC]
+    # moving_sprites: list[Moving_Sprite]
+    characters: list[Character]
     panneaux: list[Panneau]
 
 class MapManager:
@@ -27,7 +28,6 @@ class MapManager:
         self.maps = dict() #pour stocker plusieurs cartes : "house" -> Map("house", walls, group)
         self.screen = screen
         self.player = player
-        # self.player = AnimatedCat(x=0, y=0)
         self.current_map = "world"
         self.dialog_box_triggered = False
 
@@ -42,7 +42,11 @@ class MapManager:
             NPC("red", nb_points=1, dialog=["Yooo"]),
             NPC("cat_round", nb_points=1, dialog=["Yooo"]),
             # NPC("robin", nb_points=2, dialog=["Yo !", "sa va ?"]),
-            NPC("smoke", nb_points=1, dialog=["pchhhhhhhh"])
+            # NPC("smoke", nb_points=1, dialog=["pchhhhhhhh"])
+        ], characters=[
+            # Moving_Sprite("smoke", nb_points=1, nb_images=19)
+            # Character("smoke", nb_points=1, dialog=["pchhhhhhhh"])
+            Character("smoke", 200, 400)
         ], panneaux=[
             Panneau("panneau", nb_points=1, dialog=["N'allez pas par là !"])
         ])
@@ -63,24 +67,9 @@ class MapManager:
         ])
         self.teleport_player("player")
         self.teleport_npcs()
+        # self.teleport_moving_sprites()
+        # self.teleport_panneaux()
     
-    # def draw_speech_bubble(screen, text, text_colour, bg_colour, pos, size):
-    #     font = pygame.font.SysFont(None, size)
-    #     text_surface = font.render(text, True, text_colour)
-    #     text_rect = text_surface.get_rect(midbottom=pos)
-
-    #     #background
-    #     bg_rect = text_rect.copy()
-    #     bg_rect.inflate_ip(10, 10) # augmente portee de 10 px a gauche et droite
-
-    #     #frame
-    #     frame_rect = bg_rect.copy()
-    #     frame_rect.inflate_ip(4, 4)
-
-    #     pygame.fraw.rect(screen, text_colour, frame_rect)
-    #     pygame.draw.rect(screen, bg_colour, bg_rect)
-    #     screen.blit(text_surface, text_rect)
-
     def check_npc_collision(self, dialog_box):
         enlarged_player_rect = self.player.rect.inflate(10, 10)
         if not self.dialog_box_triggered:
@@ -96,17 +85,29 @@ class MapManager:
             # elif not sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau)):
             #     if dialog_box.is_reading():
             #         dialog_box.close()
+                            
+    def check_ms_collision(self, dialog_box):
+        enlarged_player_rect = self.player.rect.inflate(10, 10)
+        if not self.dialog_box_triggered:
+            for sprite in self.get_group().sprites():
+                if sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (Character)):
+                    if not dialog_box.is_reading():
+                        dialog_box.execute(sprite.dialog)
+
+                    else:
+                        if dialog_box.is_reading():
+                            dialog_box.close()
     
     def reset_dialog_box(self):
         self.dialog_box_triggered = False
 
-    def close_npc_collision(self, dialog_box):
-        enlarged_player_rect = self.player.rect.inflate(10, 10)
+    # def close_npc_collision(self, dialog_box):
+    #     enlarged_player_rect = self.player.rect.inflate(10, 10)
     
-        for sprite in self.get_group().sprites():
-            if not (sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau))):
-                dialog_box.next_text()
-                dialog_box.close()
+    #     for sprite in self.get_group().sprites():
+    #         if not (sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau))):
+    #             dialog_box.next_text()
+    #             dialog_box.close()
 
     def check_collisions(self):
         # portails
@@ -136,6 +137,18 @@ class MapManager:
 
                 else:
                     sprite.speed = 1
+            
+            if type(sprite) is Moving_Sprite:
+                enlarged_player_rect = self.player.rect.inflate(10, 10)
+                
+                if sprite.feet.colliderect(self.player.rect):
+                    self.player.move_back()
+                
+                if sprite.feet.colliderect(enlarged_player_rect):
+                    sprite.speed = 0
+
+                else:
+                    sprite.speed = 1
 
     def teleport_player(self, name):
         point = self.get_object(name)
@@ -143,7 +156,7 @@ class MapManager:
         self.player.position[1] = point.y
         self.player.save_location()
     
-    def register_map(self, name, portals=[], npcs=[], panneaux=[]):
+    def register_map(self, name, portals=[], npcs=[], characters=[], panneaux=[]):
         # charger la carte (tmx)
         tmx_data = pytmx.util_pygame.load_pygame(f"map/{name}.tmx")
         map_data = pyscroll.data.TiledMapData(tmx_data)
@@ -165,11 +178,17 @@ class MapManager:
         for npc in npcs:
             group.add(npc)
 
+        for character in characters:
+            group.add(character)
+
         for panneau in panneaux:
             group.add(panneau)
+        
+        # for moving_sprite in moving_sprites: #sprite charge sur la carte mais sans animation
+        #     group.add(moving_sprite)
 
         # creer un objet Map
-        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs, panneaux)
+        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs, characters, panneaux)
 
     def get_map(self): return self.maps[self.current_map]
 
@@ -183,15 +202,44 @@ class MapManager:
         for map in self.maps:
             map_data = self.maps[map]
             npcs = map_data.npcs
-            panneaux = map_data.panneaux
+            characters = map_data.characters
+            # panneaux = map_data.panneaux
+            # moving_sprites = map_data.moving_sprites
 
             for npc in npcs:
                 npc.load_points(map_data.tmx_data)
                 npc.teleport_spawn()
+            
+            for character in characters:
+                character.load_points(map_data.tmx_data)
+                character.teleport_spawn()
+            
+            # for panneau in panneaux:
+            #     panneau.load_points_P(map_data.tmx_data)
+            #     panneau.teleport_spawn_P()
+            
+            # for moving_sprite in moving_sprites:
+            #     moving_sprite.load_points(map_data.tmx_data)
+            #     moving_sprite.teleport_spawn()
 
-            for panneau in panneaux:
-                panneau. load_points(map_data.tmx_data)
-                panneau.teleport_spawn()
+    
+    # def teleport_panneaux(self):
+    #     for map in self.maps:
+    #         map_data = self.maps[map]
+    #         panneaux = map_data.panneaux
+
+    #         for panneau in panneaux:
+    #             panneau.load_points_P(map_data.tmx_data)
+    #             panneau.teleport_spawn_P()
+    
+    # def teleport_moving_sprites(self):
+    #     for map in self.maps:
+    #         map_data = self.maps[map]
+    #         moving_sprites = map_data.moving_sprites
+
+    #         for moving_sprite in moving_sprites:
+    #             moving_sprite.load_points_S(map_data.tmx_data)
+    #             moving_sprite.teleport_spawn_S()
 
     def draw(self):
         self.get_group().draw(self.screen)
@@ -203,3 +251,13 @@ class MapManager:
 
         for npc in self.get_map().npcs:
             npc.move()
+        
+        for character in self.get_map().characters:
+            character.move_idle()
+
+        # for moving_sprite in self.get_map().moving_sprites:
+        #     moving_sprite.move_idle()
+
+        # for moving_sprite in self.get_map().moving_sprites:
+        #     moving_sprite.move_S()
+        
