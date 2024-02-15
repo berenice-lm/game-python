@@ -38,7 +38,7 @@ class MapManager:
             # NPC("paul", nb_points=4, dialog=["Saluuuut, t'arrives à faire tes tests ?", "Wesh", "love you <3"]),
             NPC("papy", nb_points=4, dialog=["Saluuuut, t'arrives à faire tes tests ?", "Wesh", "love you <3"]),
             NPC("red", nb_points=1, dialog=["Yooo"]),
-            NPC("cat_round", nb_points=1, dialog=["Yooo"]),
+            NPC("boss", nb_points=2, dialog=["Yooo"]),
             # NPC("robin", nb_points=2, dialog=["Yo !", "sa va ?"]),
             # NPC("smoke", nb_points=1, dialog=["pchhhhhhhh"])
         ], movingsprites=[

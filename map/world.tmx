@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="96">
- <tileset firstgid="1" source="nature.tsx"/>
- <tileset firstgid="721" source="Basic Grass Biom things 1.tsx"/>
- <tileset firstgid="766" source="Wood Bridge.tsx"/>
- <tileset firstgid="781" source="Water.tsx"/>
- <tileset firstgid="785" source="deco_interieur.tsx"/>
- <tileset firstgid="915" source="old town.tsx"/>
- <tileset firstgid="1014" source="tileset_dungeon.tsx"/>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="98">
+ <tileset firstgid="1" source="../../../python/jeu_2D/map/nature.tsx"/>
+ <tileset firstgid="721" source="../../../python/jeu_2D/map/Basic Grass Biom things 1.tsx"/>
+ <tileset firstgid="766" source="../../../python/jeu_2D/map/Wood Bridge.tsx"/>
+ <tileset firstgid="781" source="../../../python/jeu_2D/map/Water.tsx"/>
+ <tileset firstgid="785" source="../../../python/jeu_2D/map/deco_interieur.tsx"/>
+ <tileset firstgid="915" source="../../../python/jeu_2D/map/old town.tsx"/>
+ <tileset firstgid="1014" source="../../../python/jeu_2D/map/tileset_dungeon.tsx"/>
  <layer id="11" name="water2" width="50" height="50">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -584,6 +584,7 @@
   <object id="87" name="panneau_path1" x="192.5" y="192.333" width="15.125" height="15.2917"/>
   <object id="90" name="smoke_path1" x="272.735" y="367.053" width="16.3333" height="15"/>
   <object id="93" name="red_path1" x="414" y="415.5" width="16.5" height="16"/>
-  <object id="95" name="cat_round_path1" x="241.75" y="192.75" width="12.75" height="14"/>
+  <object id="96" name="boss_path1" x="144" y="127.75" width="16.75" height="16.75"/>
+  <object id="97" name="boss_path2" x="272.5" y="127.5" width="15.5" height="16.5"/>
  </objectgroup>
 </map>
