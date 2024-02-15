@@ -20,8 +20,10 @@ class Game:
         self.map_manager = MapManager(self.screen, self.player)
         self.dialog_box = DialogBox()
         
-        # definir le logo du jeu
-        # pygame.display.set_icon(self.player.get())
+        # generer les elements qui vont aller sur l'ecran
+        self.chat_coeur_ini = pygame.image.load('map/cat_heart.png').convert_alpha()
+        self.chat_coeur = pygame.transform.scale(self.chat_coeur_ini, (250, 80))
+        self.chat_coeur_rect = self.chat_coeur.get_rect(topleft=(30, 20))
         
     def handle_input(self):
         pressed = pygame.key.get_pressed()
@@ -52,7 +54,10 @@ class Game:
             self.update()
             self.map_manager.draw()
             self.dialog_box.render(self.screen)
-            # self.map_manager.check_npc_collision(self.dialog_box)
+
+            # afficher les elements sur l'ecran
+            self.screen.blit(self.chat_coeur, self.chat_coeur_rect.topleft)
+
             pygame.display.flip() #actualiser en temps reel
 
             for event in pygame.event.get():
