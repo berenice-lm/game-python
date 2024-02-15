@@ -107,7 +107,7 @@ class MovingSprite(AnimateSprite):
         self.current_point = 0
 
     def move_idle(self):
-        self.change_animation("idle")
+        self.change_animation(self.name)
     
     def save_location(self): self.old_position = self.position.copy()
 

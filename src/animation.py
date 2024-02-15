@@ -21,6 +21,7 @@ class AnimateSprite(pygame.sprite.Sprite):
         self.clock = 0
         self.images = {
             'idle': self.get_images(0, 4),
+            'smoke': self.get_images(0, 19),
             'down': self.get_images(32, 3),
             'left': self.get_images(64, 4),
             'right': self.get_images(96, 4),
