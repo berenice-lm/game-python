@@ -56,6 +56,7 @@ class NPC(Entity):
         self.name = name
         self.speed = 1
         self.current_point = 0
+        self.type = type
 
     def move(self):
         current_point = self.current_point
@@ -95,13 +96,15 @@ class NPC(Entity):
 
 class Enemy(Entity):
 
-    def __init__(self, name, nb_points):
+    def __init__(self, name, nb_points, dialog):
         super().__init__(name, 0, 0)
         self.nb_points = nb_points
+        self.dialog = dialog
         self.points = []
         self.name = name
         self.speed = 1
         self.current_point = 0
+        self.type = type
 
     def move(self):
         current_point = self.current_point
@@ -124,7 +127,8 @@ class Enemy(Entity):
         else:
             self.move_idle()
 
-        if self.rect.colliderect(target_rect):
+        # if self.rect.colliderect(target_rect):
+        if self.mask and self.mask.overlap(self.player.mask, (int(self.player.rect.x - self.rect.x), int(self.player.rect.y - self.rect.y))):
             self.current_point = target_point
 
     def teleport_spawn(self):
@@ -138,6 +142,11 @@ class Enemy(Entity):
             point = tmx_data.get_object_by_name(f"{self.name}_path{num}")
             rect = pygame.Rect(point.x, point.y, point.width, point.height)
             self.points.append(rect)
+    
+    def load_mask(self):
+        # Load mask from the blitted image
+        if self.image:
+            self.mask = pygame.mask.from_surface(self.image)
 
 class MovingSprite(AnimateSprite):
     def __init__(self, name, x, y):
@@ -149,7 +158,7 @@ class MovingSprite(AnimateSprite):
         self.position = [x, y]
         self.feet = pygame.Rect(10, 0, self.rect.width * 0.5, 10)
         self.old_position = self.position.copy()
-        self.points = []  # Add points attribute here
+        self.points = []
         self.current_point = 0
 
     def move_idle(self):

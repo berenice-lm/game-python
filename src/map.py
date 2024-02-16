@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import pygame, pytmx, pyscroll
-from player import NPC, MovingSprite, Panneau
+from player import NPC, MovingSprite, Panneau, Enemy
 
 @dataclass
 class Portal:
@@ -18,6 +18,7 @@ class Map :
     portals: list[Portal]
     npcs: list[NPC]
     movingsprites: list[MovingSprite]
+    enemies: list[Enemy]
     panneaux: list[Panneau]
 
 class MapManager:
@@ -35,16 +36,13 @@ class MapManager:
             Portal(from_world="world", origin_point="enter_dungeon", target_world="dungeon", teleport_point="spawn_dungeon"),
             Portal(from_world="world", origin_point="enter_map2", target_world="labyrinthe", teleport_point="spawn_map2")
         ], npcs=[
-            # NPC("paul", nb_points=4, dialog=["Saluuuut, t'arrives à faire tes tests ?", "Wesh", "love you <3"]),
             NPC("papy", nb_points=4, dialog=["Saluuuut, t'arrives à faire tes tests ?", "Wesh", "love you <3"]),
-            NPC("red", nb_points=1, dialog=["Yooo"]),
-            NPC("boss", nb_points=2, dialog=["Yooo"]),
-            # NPC("robin", nb_points=2, dialog=["Yo !", "sa va ?"]),
-            # NPC("smoke", nb_points=1, dialog=["pchhhhhhhh"])
+            NPC("red", nb_points=1, dialog=["I'm a bad guy !"]),
+            # NPC("boss", nb_points=2, dialog=["test"]),
         ], movingsprites=[
-            # Moving_Sprite("smoke", nb_points=1, nb_images=19)
-            # Character("smoke", nb_points=1, dialog=["pchhhhhhhh"])
             MovingSprite("smoke", 270, 367)
+        ], enemies=[
+            Enemy("boss", nb_points=2, dialog=["test"])
         ], panneaux=[
             Panneau("panneau", nb_points=1, dialog=["N'allez pas par là !"])
         ])
@@ -71,17 +69,13 @@ class MapManager:
         enlarged_player_rect = self.player.rect.inflate(10, 10)
         if not self.dialog_box_triggered:
             for sprite in self.get_group().sprites():
-                if sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau)):
+                if sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau, Enemy)):
                     if not dialog_box.is_reading():
                         dialog_box.execute(sprite.dialog)
 
                     else:
                         if dialog_box.is_reading():
                             dialog_box.close()
-
-            # elif not sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau)):
-            #     if dialog_box.is_reading():
-            #         dialog_box.close()
     
     def reset_dialog_box(self):
         self.dialog_box_triggered = False
@@ -123,7 +117,7 @@ class MapManager:
                 else:
                     sprite.speed = 1
             
-            # if type(sprite) is Moving_Sprite:
+            # elif type(sprite) is Enemy:
             #     enlarged_player_rect = self.player.rect.inflate(10, 10)
                 
             #     if sprite.feet.colliderect(self.player.rect):
@@ -131,9 +125,7 @@ class MapManager:
                 
             #     if sprite.feet.colliderect(enlarged_player_rect):
             #         sprite.speed = 0
-
-            #     else:
-            #         sprite.speed = 1
+            
 
     def teleport_player(self, name):
         point = self.get_object(name)
@@ -141,7 +133,7 @@ class MapManager:
         self.player.position[1] = point.y
         self.player.save_location()
     
-    def register_map(self, name, portals=[], npcs=[], movingsprites=[], panneaux=[]):
+    def register_map(self, name, portals=[], npcs=[], movingsprites=[], enemies=[], panneaux=[]):
         # charger la carte (tmx)
         tmx_data = pytmx.util_pygame.load_pygame(f"map/{name}.tmx")
         map_data = pyscroll.data.TiledMapData(tmx_data)
@@ -165,6 +157,9 @@ class MapManager:
 
         for movingsprite in movingsprites:
             group.add(movingsprite)
+        
+        for enemy in enemies:
+            group.add(enemy)
 
         for panneau in panneaux:
             group.add(panneau)
@@ -173,7 +168,7 @@ class MapManager:
         #     group.add(moving_sprite)
 
         # creer un objet Map
-        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs, movingsprites, panneaux)
+        self.maps[name] = Map(name, walls, group, tmx_data, portals, npcs, movingsprites, enemies, panneaux)
 
     def get_map(self): return self.maps[self.current_map]
 
@@ -188,10 +183,15 @@ class MapManager:
             map_data = self.maps[map]
             npcs = map_data.npcs
             panneaux = map_data.panneaux
+            enemies = map_data.enemies
 
             for npc in npcs:
                 npc.load_points(map_data.tmx_data)
                 npc.teleport_spawn()
+            
+            for enemy in enemies:
+                enemy.load_points(map_data.tmx_data)
+                enemy.teleport_spawn()
             
             for panneau in panneaux:
                 panneau.load_points_P(map_data.tmx_data)
@@ -225,6 +225,9 @@ class MapManager:
 
         for npc in self.get_map().npcs:
             npc.move()
+        
+        for enemy in self.get_map().enemies:
+            enemy.move()
         
         for movingsprite in self.get_map().movingsprites:
             movingsprite.move_idle()
