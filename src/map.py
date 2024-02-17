@@ -65,7 +65,7 @@ class MapManager:
         self.teleport_npcs()
         # self.teleport_panneaux()
     
-    def check_npc_collision(self, dialog_box):
+    def check_npc_collisions(self, dialog_box):
         enlarged_player_rect = self.player.rect.inflate(10, 10)
         if not self.dialog_box_triggered:
             for sprite in self.get_group().sprites():
@@ -75,18 +75,7 @@ class MapManager:
 
                     else:
                         if dialog_box.is_reading():
-                            dialog_box.close()
-    
-    def reset_dialog_box(self):
-        self.dialog_box_triggered = False
-
-    # def close_npc_collision(self, dialog_box):
-    #     enlarged_player_rect = self.player.rect.inflate(10, 10)
-    
-    #     for sprite in self.get_group().sprites():
-    #         if not (sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau))):
-    #             dialog_box.next_text()
-    #             dialog_box.close()
+                            dialog_box.next_text()
 
     def check_collisions(self):
         # portails

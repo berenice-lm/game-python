@@ -127,8 +127,8 @@ class Enemy(Entity):
         else:
             self.move_idle()
 
-        # if self.rect.colliderect(target_rect):
-        if self.mask and self.mask.overlap(self.player.mask, (int(self.player.rect.x - self.rect.x), int(self.player.rect.y - self.rect.y))):
+        if self.rect.colliderect(target_rect):
+        # if self.mask and self.mask.overlap(self.player.mask, (int(self.player.rect.x - self.rect.x), int(self.player.rect.y - self.rect.y))):
             self.current_point = target_point
 
     def teleport_spawn(self):

@@ -45,6 +45,7 @@ class Game:
         self.map_manager.update()
     
     def run(self):
+        pygame.init()
         clock = pygame.time.Clock()
 
         while self.running:
@@ -65,7 +66,7 @@ class Game:
                     self.running = False
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_f:
-                        self.map_manager.check_npc_collision(self.dialog_box)
+                        self.map_manager.check_npc_collisions(self.dialog_box)
 
             clock.tick(60)
 
