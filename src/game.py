@@ -45,7 +45,6 @@ class Game:
         self.map_manager.update()
     
     def run(self):
-        pygame.init()
         clock = pygame.time.Clock()
 
         while self.running:

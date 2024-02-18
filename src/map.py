@@ -72,10 +72,13 @@ class MapManager:
                 if sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau, Enemy)):
                     if not dialog_box.is_reading():
                         dialog_box.execute(sprite.dialog)
+                        self.player.speed = 0
 
                     else:
                         if dialog_box.is_reading():
                             dialog_box.next_text()
+                        if not dialog_box.is_reading():
+                            self.player.speed = 2
 
     def check_collisions(self):
         # portails
