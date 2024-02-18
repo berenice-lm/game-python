@@ -20,12 +20,13 @@ class AnimateSprite(pygame.sprite.Sprite):
         self.animation_index = 0
         self.clock = 0
         self.images = {
-            'idle': self.get_images(0, 4),
-            'smoke': self.get_images(0, 19),
-            'down': self.get_images(32, 3),
-            'left': self.get_images(64, 4),
-            'right': self.get_images(96, 4),
-            'up': self.get_images(128, 3),
+            'idle': self.get_images(0, 4, 32),
+            'down': self.get_images(32, 3, 32),
+            'left': self.get_images(64, 4, 32),
+            'right': self.get_images(96, 4, 32),
+            'up': self.get_images(128, 3, 32),
+            'smoke': self.get_images(0, 19, 32),
+            'bubble': self.get_images(0, 3, 16),
         }
         self.speed = 2
 
@@ -43,11 +44,11 @@ class AnimateSprite(pygame.sprite.Sprite):
 
             self.clock = 0
     
-    def get_images(self, y, num_frames):
+    def get_images(self, y, num_frames, pixel_x):
         images = []
 
         for i in range(num_frames):
-            x = i * 32  # Assuming each frame is 32 pixels wide
+            x = i * pixel_x  
             image = self.get_image(x, y)
             images.append(image)
 

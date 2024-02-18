@@ -40,7 +40,7 @@ class MapManager:
             NPC("red", nb_points=1, dialog=["I'm a bad guy !"]),
             # NPC("boss", nb_points=2, dialog=["test"]),
         ], movingsprites=[
-            MovingSprite("smoke", 270, 367)
+            MovingSprite("bubble", 270, 367)
         ], enemies=[
             Enemy("boss", nb_points=2, dialog=["test"])
         ], panneaux=[
@@ -105,6 +105,7 @@ class MapManager:
                 
                 if sprite.feet.colliderect(enlarged_player_rect):
                     sprite.speed = 0
+                    MovingSprite("bubble", 260, 367)
 
                 else:
                     sprite.speed = 1
