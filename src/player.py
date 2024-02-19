@@ -5,7 +5,7 @@ class Entity(AnimateSprite):
 
     def __init__(self, name, x, y):
         super().__init__(name)
-        self.image = self.get_image(0, 0)
+        self.image = self.get_image(0, 0, 32, 32)
         self.image.set_colorkey([0, 0, 0])
         self.rect = self.image.get_rect()
         self.position = [x, y]
@@ -152,7 +152,7 @@ class MovingSprite(AnimateSprite):
     def __init__(self, name, x, y):
         super().__init__(name)
         self.name = name
-        self.image = self.get_image(0, 0)
+        self.image = self.get_image(0, 0, 32, 32)
         self.image.set_colorkey([0, 0, 0])
         self.rect = self.image.get_rect()
         self.position = [x, y]

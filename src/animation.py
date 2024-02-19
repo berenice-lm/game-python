@@ -20,13 +20,13 @@ class AnimateSprite(pygame.sprite.Sprite):
         self.animation_index = 0
         self.clock = 0
         self.images = {
-            'idle': self.get_images(0, 4, 32),
-            'down': self.get_images(32, 3, 32),
-            'left': self.get_images(64, 4, 32),
-            'right': self.get_images(96, 4, 32),
-            'up': self.get_images(128, 3, 32),
-            'smoke': self.get_images(0, 19, 32),
-            'bubble': self.get_images(0, 3, 16),
+            'idle': self.get_images(0, 4, 32, 32),
+            'down': self.get_images(32, 3, 32, 32),
+            'left': self.get_images(64, 4, 32, 32),
+            'right': self.get_images(96, 4, 32, 32),
+            'up': self.get_images(128, 3, 32, 32),
+            'smoke': self.get_images(0, 19, 32, 32),
+            'bubble': self.get_images(0, 3, 16, 16),
         }
         self.speed = 2
 
@@ -44,17 +44,17 @@ class AnimateSprite(pygame.sprite.Sprite):
 
             self.clock = 0
     
-    def get_images(self, y, num_frames, pixel_x):
+    def get_images(self, y, num_frames, pixel_x, pixel_y):
         images = []
 
         for i in range(num_frames):
             x = i * pixel_x  
-            image = self.get_image(x, y)
+            image = self.get_image(x, y, pixel_x, pixel_y)
             images.append(image)
 
         return images
 
-    def get_image(self, x, y):
+    def get_image(self, x, y, pixel_x, pixel_y):
         image = pygame.Surface([32, 32])
-        image.blit(self.sprite_sheet, (0, 0), (x, y, 32, 32))
+        image.blit(self.sprite_sheet, (0, 0), (x, y, pixel_x, pixel_y))
         return image
