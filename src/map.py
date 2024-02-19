@@ -40,7 +40,7 @@ class MapManager:
             NPC("red", nb_points=1, dialog=["I'm a bad guy !"]),
             # NPC("boss", nb_points=2, dialog=["test"]),
         ], movingsprites=[
-            MovingSprite("bubble", 270, 367)
+            MovingSprite("smoke", 270, 367)
         ], enemies=[
             Enemy("boss", nb_points=2, dialog=["test"])
         ], panneaux=[
@@ -81,7 +81,7 @@ class MapManager:
                             self.player.speed = 2
 
     def check_collisions(self):
-        # portails
+    # portails
         for portal in self.get_map().portals:
             if portal.from_world == self.current_map:
                 point = self.get_object(portal.origin_point)
@@ -91,24 +91,60 @@ class MapManager:
                     copy_portal = portal
                     self.current_map = portal.target_world
                     self.teleport_player(copy_portal.teleport_point)
-        
+
         # collisions
         for sprite in self.get_group().sprites():
             if sprite.feet.collidelist(self.get_walls()) > -1:
                 sprite.move_back()
 
-            if type(sprite) is NPC:
+            if isinstance(sprite, NPC):
                 enlarged_player_rect = self.player.rect.inflate(10, 10)
-                
+
                 if sprite.feet.colliderect(self.player.rect):
                     self.player.move_back()
-                
+
                 if sprite.feet.colliderect(enlarged_player_rect):
                     sprite.speed = 0
-                    MovingSprite("bubble", 260, 367)
+                    # Create the bubble above the NPC
+                    bubble_x = sprite.rect.centerx - 8  # Adjust this value as needed
+                    bubble_y = sprite.rect.top - 16  # Adjust this value as needed
+                    bubble = MovingSprite("bubble", bubble_x, bubble_y)
+                    # Check collision between player and bubble
+                    if bubble.rect.colliderect(self.player.rect):
+                        # Handle collision action here, for example, end the game or award points
+                        pass
 
                 else:
                     sprite.speed = 1
+    # def check_collisions(self):
+    #     # portails
+    #     for portal in self.get_map().portals:
+    #         if portal.from_world == self.current_map:
+    #             point = self.get_object(portal.origin_point)
+    #             rect = pygame.Rect(point.x, point.y, point.width, point.height)
+
+    #             if self.player.feet.colliderect(rect):
+    #                 copy_portal = portal
+    #                 self.current_map = portal.target_world
+    #                 self.teleport_player(copy_portal.teleport_point)
+        
+    #     # collisions
+    #     for sprite in self.get_group().sprites():
+    #         if sprite.feet.collidelist(self.get_walls()) > -1:
+    #             sprite.move_back()
+
+    #         if type(sprite) is NPC:
+    #             enlarged_player_rect = self.player.rect.inflate(10, 10)
+                
+    #             if sprite.feet.colliderect(self.player.rect):
+    #                 self.player.move_back()
+                
+    #             if sprite.feet.colliderect(enlarged_player_rect):
+    #                 sprite.speed = 0
+    #                 MovingSprite("bubble", 260, 367)
+
+    #             else:
+    #                 sprite.speed = 1
             
             # elif type(sprite) is Enemy:
             #     enlarged_player_rect = self.player.rect.inflate(10, 10)
