@@ -9,7 +9,8 @@ class Entity(AnimateSprite):
         self.image.set_colorkey([0, 0, 0])
         self.rect = self.image.get_rect()
         self.position = [x, y]
-        self.feet = pygame.Rect(10, 0, self.rect.width * 0.5, 10)
+
+        self.feet = pygame.Rect(10, 0, self.rect.width * 0.5, 1)
         self.old_position = self.position.copy()
 
     def save_location(self): self.old_position = self.position.copy()
@@ -35,12 +36,12 @@ class Entity(AnimateSprite):
 
     def update(self):
         self.rect.topleft = self.position
-        self.feet.midbottom = self.rect.midbottom
+        self.feet.midbottom = self.rect.center
 
     def move_back(self):
         self.position = self.old_position
         self.rect.topleft = self.position
-        self.feet.midbottom = self.rect.midbottom
+        self.feet.midbottom = self.rect.center
         
 class Player(Entity):
     def __init__(self):

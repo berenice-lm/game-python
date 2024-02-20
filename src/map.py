@@ -225,24 +225,6 @@ class MapManager:
             for panneau in panneaux:
                 panneau.load_points_P(map_data.tmx_data)
                 panneau.teleport_spawn_P()
-    
-    # def teleport_panneaux(self):
-    #     for map in self.maps:
-    #         map_data = self.maps[map]
-    #         panneaux = map_data.panneaux
-
-    #         for panneau in panneaux:
-    #             panneau.load_points_P(map_data.tmx_data)
-    #             panneau.teleport_spawn_P()
-    
-    # def teleport_moving_sprites(self):
-    #     for map in self.maps:
-    #         map_data = self.maps[map]
-    #         moving_sprites = map_data.moving_sprites
-
-    #         for moving_sprite in moving_sprites:
-    #             moving_sprite.load_points_S(map_data.tmx_data)
-    #             moving_sprite.teleport_spawn_S()
 
     def draw(self):
         self.get_group().draw(self.screen)
