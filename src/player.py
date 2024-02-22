@@ -62,6 +62,7 @@ class NPC(Entity):
     def move(self):
         current_point = self.current_point
         target_point = self.current_point + 1
+        # self.load_bubble()
 
         if target_point >= self.nb_points:
             target_point = 0
@@ -94,6 +95,17 @@ class NPC(Entity):
             point = tmx_data.get_object_by_name(f"{self.name}_path{num}")
             rect = pygame.Rect(point.x, point.y, point.width, point.height)
             self.points.append(rect)
+    
+    def load_bubble(self):
+        location = self.points[self.current_point]
+        self.position[0] = location.x
+        self.position[1] = location.y
+        self.dialog_test_ini = pygame.image.load('dialogs/dialog_box.png').convert_alpha()
+        self.dialog_test = pygame.transform.scale(self.dialog_test_ini, (250, 80))
+        self.dialog_test_rect = self.dialog_test.get_rect(topleft=(self.position[0], self.position[1]))
+
+        if self.dialog_box.is_reading() or self.map_manager.is_npc_colliding():
+                self.screen.blit(self.dialog_test, self.dialog_test_rect.topleft)
 
 class Enemy(Entity):
 
@@ -143,11 +155,6 @@ class Enemy(Entity):
             point = tmx_data.get_object_by_name(f"{self.name}_path{num}")
             rect = pygame.Rect(point.x, point.y, point.width, point.height)
             self.points.append(rect)
-    
-    def load_mask(self):
-        # Load mask from the blitted image
-        if self.image:
-            self.mask = pygame.mask.from_surface(self.image)
 
 class MovingSprite(AnimateSprite):
     def __init__(self, name, x, y):

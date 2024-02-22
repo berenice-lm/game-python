@@ -40,7 +40,8 @@ class MapManager:
             NPC("red", nb_points=1, dialog=["I'm a bad guy !"]),
             # NPC("boss", nb_points=2, dialog=["test"]),
         ], movingsprites=[
-            MovingSprite("smoke", 270, 367)
+            MovingSprite("smoke", 270, 367),
+            # MovingSprite("bubble", 200, 290),
         ], enemies=[
             Enemy("boss", nb_points=2, dialog=["test"])
         ], panneaux=[
@@ -73,12 +74,18 @@ class MapManager:
                     if not dialog_box.is_reading():
                         dialog_box.execute(sprite.dialog)
                         self.player.speed = 0
-
                     else:
                         if dialog_box.is_reading():
                             dialog_box.next_text()
                         if not dialog_box.is_reading():
                             self.player.speed = 2
+
+    def is_npc_colliding(self):
+        enlarged_player_rect = self.player.rect.inflate(10, 10)
+        for sprite in self.get_group().sprites():
+            if sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, NPC):
+                return True
+        return False
 
     def check_collisions(self):
     # portails
@@ -105,14 +112,6 @@ class MapManager:
 
                 if sprite.feet.colliderect(enlarged_player_rect):
                     sprite.speed = 0
-                    # Create the bubble above the NPC
-                    bubble_x = sprite.rect.centerx - 8  # Adjust this value as needed
-                    bubble_y = sprite.rect.top - 16  # Adjust this value as needed
-                    bubble = MovingSprite("bubble", bubble_x, bubble_y)
-                    # Check collision between player and bubble
-                    if bubble.rect.colliderect(self.player.rect):
-                        # Handle collision action here, for example, end the game or award points
-                        pass
 
                 else:
                     sprite.speed = 1

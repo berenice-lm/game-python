@@ -1,6 +1,6 @@
 import pygame
 from dialog import DialogBox
-from player import Player
+from player import MovingSprite, Player, NPC
 from map import MapManager
 
 class Game:
@@ -24,6 +24,10 @@ class Game:
         self.chat_coeur_ini = pygame.image.load('map/cat_heart.png').convert_alpha()
         self.chat_coeur = pygame.transform.scale(self.chat_coeur_ini, (250, 80))
         self.chat_coeur_rect = self.chat_coeur.get_rect(topleft=(30, 20))
+
+        # self.dialog_test_ini = pygame.image.load('dialogs/dialog_box.png').convert_alpha()
+        # self.dialog_test = pygame.transform.scale(self.dialog_test_ini, (250, 80))
+        # self.dialog_test_rect = self.dialog_test.get_rect(topleft=(30, 20))
         
     def handle_input(self):
         pressed = pygame.key.get_pressed()
@@ -57,6 +61,8 @@ class Game:
 
             # afficher les elements sur l'ecran
             self.screen.blit(self.chat_coeur, self.chat_coeur_rect.topleft)
+            # if self.dialog_box.is_reading() or self.map_manager.is_npc_colliding():
+            #     self.screen.blit(self.dialog_test, self.dialog_test_rect.topleft)
 
             pygame.display.flip() #actualiser en temps reel
 
