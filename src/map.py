@@ -173,7 +173,7 @@ class MapManager:
 
         for obj in tmx_data.objects:
             if obj.type == "collision":
-                walls.append(pygame.Rect(obj.x, obj.y, obj.width, obj.height))
+                walls.append(pygame.Rect(obj.x, obj.y - 15, obj.width, obj.height))
 
         # dessiner le groupe de calques
         group = pyscroll.PyscrollGroup(map_layer=map_layer, default_layer=7)

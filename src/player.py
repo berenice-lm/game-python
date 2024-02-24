@@ -46,6 +46,9 @@ class Entity(AnimateSprite):
 class Player(Entity):
     def __init__(self):
         super().__init__('chattest5', 0, 0)
+        # self.feet = pygame.Rect(10, 0, self.rect.width * 0.5, 1)
+        # self.old_position = self.position.copy()
+
 
 class NPC(Entity):
 
