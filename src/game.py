@@ -26,8 +26,8 @@ class Game:
         self.chat_coeur_rect = self.chat_coeur.get_rect(topleft=(30, 20))
 
         # self.dialog_test_ini = pygame.image.load('dialogs/dialog_box.png').convert_alpha()
-        # self.dialog_test = pygame.transform.scale(self.dialog_test_ini, (250, 80))
-        # self.dialog_test_rect = self.dialog_test.get_rect(topleft=(30, 20))
+        # self.dialog_test = pygame.transform.scale(self.dialog_test_ini, (40, 30))
+        # self.dialog_test_rect = self.dialog_test.get_rect(topleft=(290, 200))
         
     def handle_input(self):
         pressed = pygame.key.get_pressed()
@@ -61,8 +61,11 @@ class Game:
 
             # afficher les elements sur l'ecran
             self.screen.blit(self.chat_coeur, self.chat_coeur_rect.topleft)
-            # if self.dialog_box.is_reading() or self.map_manager.is_npc_colliding():
-            #     self.screen.blit(self.dialog_test, self.dialog_test_rect.topleft)
+
+            if self.dialog_box.is_reading() or self.map_manager.is_npc_colliding():
+                for sprite in self.map_manager.get_group().sprites():
+                    if isinstance(sprite, NPC):
+                        sprite.load_bubble(True)
 
             pygame.display.flip() #actualiser en temps reel
 
@@ -76,3 +79,17 @@ class Game:
             clock.tick(60)
 
         pygame.quit()
+
+class DialogOpen:
+    def __init__(self):
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        self.player = Player()
+        self.map_manager = MapManager(self.screen, self.player)
+
+        self.dialog_test_ini = pygame.image.load('dialogs/dialog_box.png').convert_alpha()
+        self.dialog_test = pygame.transform.scale(self.dialog_test_ini, (250, 80))
+        self.dialog_test_rect = self.dialog_test.get_rect(topleft=(30, 20))
+    
+    def run(self):
+        if self.dialog_box.is_reading() or self.map_manager.is_npc_colliding():
+            self.screen.blit(self.dialog_test, self.dialog_test_rect.topleft)

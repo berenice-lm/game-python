@@ -46,14 +46,12 @@ class Entity(AnimateSprite):
 class Player(Entity):
     def __init__(self):
         super().__init__('chattest5', 0, 0)
-        # self.feet = pygame.Rect(10, 0, self.rect.width * 0.5, 1)
-        # self.old_position = self.position.copy()
-
 
 class NPC(Entity):
 
     def __init__(self, name, nb_points, dialog):
         super().__init__(name, 0, 0)
+        self.player = Player()
         self.nb_points = nb_points
         self.dialog = dialog
         self.points = []
@@ -61,11 +59,11 @@ class NPC(Entity):
         self.speed = 1
         self.current_point = 0
         self.type = type
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
     def move(self):
         current_point = self.current_point
         target_point = self.current_point + 1
-        # self.load_bubble()
 
         if target_point >= self.nb_points:
             target_point = 0
@@ -99,16 +97,15 @@ class NPC(Entity):
             rect = pygame.Rect(point.x, point.y, point.width, point.height)
             self.points.append(rect)
     
-    def load_bubble(self):
-        location = self.points[self.current_point]
-        self.position[0] = location.x
-        self.position[1] = location.y
-        self.dialog_test_ini = pygame.image.load('dialogs/dialog_box.png').convert_alpha()
-        self.dialog_test = pygame.transform.scale(self.dialog_test_ini, (250, 80))
-        self.dialog_test_rect = self.dialog_test.get_rect(topleft=(self.position[0], self.position[1]))
+    def load_bubble(self, display_dialog):
+        if display_dialog:
+            self.dialog_test_ini = pygame.image.load('dialogs/dialog_box.png').convert_alpha()
+            self.dialog_test = pygame.transform.scale(self.dialog_test_ini, (40, 30))
+            self.dialog_test_rect = self.dialog_test.get_rect(topleft=(self.position[0] + 200, self.position[1] - 100))
+            # self.dialog_test_rect = self.dialog_test.get_rect(topleft=(290, 200))
+            bulle = MovingSprite("bubble", 200, 290)
 
-        if self.dialog_box.is_reading() or self.map_manager.is_npc_colliding():
-                self.screen.blit(self.dialog_test, self.dialog_test_rect.topleft)
+            bulle.move()
 
 class Enemy(Entity):
 

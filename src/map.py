@@ -65,20 +65,6 @@ class MapManager:
         self.teleport_player("player")
         self.teleport_npcs()
         # self.teleport_panneaux()
-    
-    def check_npc_collisions(self, dialog_box):
-        enlarged_player_rect = self.player.rect.inflate(10, 10)
-        if not self.dialog_box_triggered:
-            for sprite in self.get_group().sprites():
-                if sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau, Enemy)):
-                    if not dialog_box.is_reading():
-                        dialog_box.execute(sprite.dialog)
-                        self.player.speed = 0
-                    else:
-                        if dialog_box.is_reading():
-                            dialog_box.next_text()
-                        if not dialog_box.is_reading():
-                            self.player.speed = 2
 
     def is_npc_colliding(self):
         enlarged_player_rect = self.player.rect.inflate(10, 10)
@@ -114,46 +100,7 @@ class MapManager:
                     sprite.speed = 0
 
                 else:
-                    sprite.speed = 1
-    # def check_collisions(self):
-    #     # portails
-    #     for portal in self.get_map().portals:
-    #         if portal.from_world == self.current_map:
-    #             point = self.get_object(portal.origin_point)
-    #             rect = pygame.Rect(point.x, point.y, point.width, point.height)
-
-    #             if self.player.feet.colliderect(rect):
-    #                 copy_portal = portal
-    #                 self.current_map = portal.target_world
-    #                 self.teleport_player(copy_portal.teleport_point)
-        
-    #     # collisions
-    #     for sprite in self.get_group().sprites():
-    #         if sprite.feet.collidelist(self.get_walls()) > -1:
-    #             sprite.move_back()
-
-    #         if type(sprite) is NPC:
-    #             enlarged_player_rect = self.player.rect.inflate(10, 10)
-                
-    #             if sprite.feet.colliderect(self.player.rect):
-    #                 self.player.move_back()
-                
-    #             if sprite.feet.colliderect(enlarged_player_rect):
-    #                 sprite.speed = 0
-    #                 MovingSprite("bubble", 260, 367)
-
-    #             else:
-    #                 sprite.speed = 1
-            
-            # elif type(sprite) is Enemy:
-            #     enlarged_player_rect = self.player.rect.inflate(10, 10)
-                
-            #     if sprite.feet.colliderect(self.player.rect):
-            #         self.player.move_back()
-                
-            #     if sprite.feet.colliderect(enlarged_player_rect):
-            #         sprite.speed = 0
-            
+                    sprite.speed = 1 
 
     def teleport_player(self, name):
         point = self.get_object(name)
@@ -228,6 +175,20 @@ class MapManager:
     def draw(self):
         self.get_group().draw(self.screen)
         self.get_group().center(self.player.rect.center)
+    
+    def check_npc_collisions(self, dialog_box):
+        enlarged_player_rect = self.player.rect.inflate(10, 10)
+        if not self.dialog_box_triggered:
+            for sprite in self.get_group().sprites():
+                if sprite.feet.colliderect(enlarged_player_rect) and isinstance(sprite, (NPC, Panneau, Enemy)):
+                    if not dialog_box.is_reading():
+                        dialog_box.execute(sprite.dialog)
+                        self.player.speed = 0
+                    else:
+                        if dialog_box.is_reading():
+                            dialog_box.next_text()
+                        if not dialog_box.is_reading():
+                            self.player.speed = 2
 
     def update(self):
         self.get_group().update()
