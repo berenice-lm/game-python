@@ -42,6 +42,19 @@ class Entity(AnimateSprite):
         self.position = self.old_position
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.center
+
+    def move_back_more(self):
+        # Calculate the distance to move back
+        distance_x = self.position[0] - self.old_position[0]
+        distance_y = self.position[1] - self.old_position[1]
+
+        # Move the player back by twice the distance
+        self.position[0] -= 4 * distance_x
+        self.position[1] -= 4 * distance_y
+
+        # Update the player's rectangle
+        self.rect.topleft = self.position
+        self.feet.midbottom = self.rect.center
         
 class Player(Entity):
     def __init__(self):
@@ -101,16 +114,18 @@ class NPC(Entity):
         if display_dialog:
             self.dialog_test_ini = pygame.image.load('dialogs/dialog_box.png').convert_alpha()
             self.dialog_test = pygame.transform.scale(self.dialog_test_ini, (40, 30))
-            self.dialog_test_rect = self.dialog_test.get_rect(topleft=(self.position[0] + 200, self.position[1] - 100))
+            self.dialog_test_rect = self.dialog_test.get_rect(topleft=(self.position[0], self.position[1]))
             # self.dialog_test_rect = self.dialog_test.get_rect(topleft=(290, 200))
-            bulle = MovingSprite("bubble", 200, 290)
+            # bulle = MovingSprite("bubble", 200, 290)
 
-            bulle.move()
+            # bulle.move()
+            # self.screen.draw(self.dialog_test, self.dialog_test_rect)
 
 class Enemy(Entity):
 
     def __init__(self, name, nb_points, dialog):
         super().__init__(name, 0, 0)
+        self.player = Player()
         self.nb_points = nb_points
         self.dialog = dialog
         self.points = []
@@ -118,6 +133,7 @@ class Enemy(Entity):
         self.speed = 1
         self.current_point = 0
         self.type = type
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
     def move(self):
         current_point = self.current_point
@@ -189,9 +205,11 @@ class MovingSprite(AnimateSprite):
             point = tmx_data.get_object_by_name(f"{self.name}_path{num}")
             rect = pygame.Rect(point.x, point.y, point.width, point.height)
             self.points.append(rect)
+    
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)
 
 class Panneau(Entity):
-
     def __init__(self, name, nb_points, dialog):
         super().__init__(name, 0, 0)
         self.nb_points = nb_points

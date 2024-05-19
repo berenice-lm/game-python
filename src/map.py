@@ -29,6 +29,8 @@ class MapManager:
         self.player = player
         self.current_map = "world"
         self.dialog_box_triggered = False
+        self.map_zoom_out = pygame.image.load('map/carte_dezoom.png').convert_alpha()
+        self.zoom_level = 3  # Initial zoom level
 
         self.register_map("world", portals=[
             Portal(from_world="world", origin_point="enter_house", target_world="house", teleport_point="spawn_house"),
@@ -43,7 +45,7 @@ class MapManager:
             MovingSprite("smoke", 270, 367),
             # MovingSprite("bubble", 200, 290),
         ], enemies=[
-            Enemy("boss", nb_points=2, dialog=["test"])
+            Enemy("boss", nb_points=1, dialog=[])
         ], panneaux=[
             Panneau("panneau", nb_points=1, dialog=["N'allez pas par là !"])
         ])
@@ -64,6 +66,7 @@ class MapManager:
         ])
         self.teleport_player("player")
         self.teleport_npcs()
+        # self.load_bubble(True)
         # self.teleport_panneaux()
 
     def is_npc_colliding(self):

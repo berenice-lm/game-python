@@ -1,6 +1,6 @@
 import pygame
 from dialog import DialogBox
-from player import MovingSprite, Player, NPC
+from player import Enemy, MovingSprite, Player, NPC
 from map import MapManager
 
 class Game:
@@ -12,7 +12,8 @@ class Game:
         self.map = "world"
         
         # creer la fenetre du jeu
-        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        SCREENWIDTH, SCREENHEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
+        self.screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
         pygame.display.set_caption("My own adventure")
 
         # generer un joueur
@@ -47,6 +48,13 @@ class Game:
 
     def update(self):
         self.map_manager.update()
+        # self.bubble.update()
+
+        for sprite in self.map_manager.get_group().sprites():
+            if isinstance(sprite, Enemy):
+                if self.player.rect.colliderect(sprite.rect):
+                    print("Touched Enemy!")
+                    self.player.move_back_more()
     
     def run(self):
         clock = pygame.time.Clock()
@@ -62,10 +70,16 @@ class Game:
             # afficher les elements sur l'ecran
             self.screen.blit(self.chat_coeur, self.chat_coeur_rect.topleft)
 
+            # if self.dialog_box.is_reading() or self.map_manager.is_npc_colliding():
+            #     for sprite in self.map_manager.get_group().sprites():
+            #         if isinstance(sprite, NPC):
+            #             sprite.load_bubble(True)
+
             if self.dialog_box.is_reading() or self.map_manager.is_npc_colliding():
                 for sprite in self.map_manager.get_group().sprites():
                     if isinstance(sprite, NPC):
                         sprite.load_bubble(True)
+
 
             pygame.display.flip() #actualiser en temps reel
 
@@ -75,6 +89,13 @@ class Game:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_f:
                         self.map_manager.check_npc_collisions(self.dialog_box)
+                elif event.type == pygame.MOUSEWHEEL:
+                    if event.y > 0:  # Zoom in
+                        self.map_manager.zoom_level += 1
+                        self.map_manager.get_map().group.zoom += 0.1
+                    elif event.y < 0:  # Zoom out
+                        self.map_manager.zoom_level -= 1
+                        self.map_manager.get_map().group.zoom -= 0.1
 
             clock.tick(60)
 

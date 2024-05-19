@@ -497,7 +497,7 @@
   <object id="3" name="player" x="196.086" y="459.212">
    <point/>
   </object>
-  <object id="4" type="collision" x="0" y="0.333333" width="802.333" height="30.6667"/>
+  <object id="4" type="collision" x="0" y="0.333333" width="800.583" height="30.6667"/>
   <object id="6" type="collision" x="-1" y="-1" width="30" height="801"/>
   <object id="7" type="collision" x="-1" y="769" width="802" height="30"/>
   <object id="8" type="collision" x="768" y="0" width="35" height="798"/>
@@ -584,7 +584,6 @@
   <object id="87" name="panneau_path1" x="192.5" y="192.333" width="15.125" height="15.2917"/>
   <object id="90" name="smoke_path1" x="272.735" y="367.053" width="16.3333" height="15"/>
   <object id="93" name="red_path1" x="414" y="415.5" width="16.5" height="16"/>
-  <object id="96" name="boss_path1" x="144" y="127.75" width="16.75" height="16.75"/>
-  <object id="97" name="boss_path2" x="272.5" y="127.5" width="15.5" height="16.5"/>
+  <object id="96" name="boss_path1" x="192.091" y="511.205" width="16.75" height="16.75"/>
  </objectgroup>
 </map>

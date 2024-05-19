@@ -8,8 +8,7 @@ class Start:
     def __init__(self):
         pygame.init()
         SCREENWIDTH, SCREENHEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
-        # SCREENWIDTH, SCREENHEIGHT = 1800, 800
-        self.screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
         self.clock = pygame.time.Clock()
 
         self.gameStateManager = GameStateManager('menu')
