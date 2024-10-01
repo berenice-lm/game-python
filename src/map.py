@@ -29,7 +29,7 @@ class MapManager:
         self.player = player
         self.current_map = "world"
         self.dialog_box_triggered = False
-        self.map_zoom_out = pygame.image.load('map/carte_dezoom.png').convert_alpha()
+        # self.map_zoom_out = pygame.image.load('map/carte_dezoom.png').convert_alpha()
         self.zoom_level = 3  # Initial zoom level
 
         self.register_map("world", portals=[
@@ -38,7 +38,7 @@ class MapManager:
             Portal(from_world="world", origin_point="enter_dungeon", target_world="dungeon", teleport_point="spawn_dungeon"),
             Portal(from_world="world", origin_point="enter_map2", target_world="labyrinthe", teleport_point="spawn_map2")
         ], npcs=[
-            NPC("papy", nb_points=4, dialog=["Saluuuut, t'arrives à faire tes tests ?", "Wesh", "love you <3"]),
+            NPC("papy", nb_points=4, dialog=["Saluuuut, t'arrives à faire tes tests ?", "deuxième bulle", "... et la troisième"]),
             NPC("red", nb_points=1, dialog=["I'm a bad guy !"]),
             # NPC("boss", nb_points=2, dialog=["test"]),
         ], movingsprites=[
