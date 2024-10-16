@@ -51,6 +51,7 @@ class DialogBox:
 
     X_POSITION = 400
     Y_POSITION = 700
+    MAX_WIDTH = 700  # Largeur maximale de la boîte de dialogue
 
     def __init__(self):
         self.box = pygame.image.load('dialogs/dialog_box.png')

@@ -31,6 +31,7 @@ class MapManager:
         self.dialog_box_triggered = False
         # self.map_zoom_out = pygame.image.load('map/carte_dezoom.png').convert_alpha()
         self.zoom_level = 3  # Initial zoom level
+        self.enemy_collision = False
 
         self.register_map("world", portals=[
             Portal(from_world="world", origin_point="enter_house", target_world="house", teleport_point="spawn_house"),
@@ -38,7 +39,7 @@ class MapManager:
             Portal(from_world="world", origin_point="enter_dungeon", target_world="dungeon", teleport_point="spawn_dungeon"),
             Portal(from_world="world", origin_point="enter_map2", target_world="labyrinthe", teleport_point="spawn_map2")
         ], npcs=[
-            NPC("papy", nb_points=4, dialog=["Saluuuut, t'arrives à faire tes tests ?", "deuxième bulle", "... et la troisième"]),
+            NPC("papy", nb_points=4, dialog=["Tu es perdu ?", "Je suis nouveau ici, je ne me souviens plus du nom du village...", "... mais je sais qu'il est proche d'un parc national", "J'y allais souvent pêcher, la rivière est sympa !", "Je crois qu'elle prend sa source à ville A"]),
             NPC("red", nb_points=1, dialog=["I'm a bad guy !"]),
             # NPC("boss", nb_points=2, dialog=["test"]),
         ], movingsprites=[
@@ -47,7 +48,7 @@ class MapManager:
         ], enemies=[
             Enemy("boss", nb_points=1, dialog=[])
         ], panneaux=[
-            Panneau("panneau", nb_points=1, dialog=["N'allez pas par là !"])
+            Panneau("panneau", nb_points=1, dialog=["<- Ville D", "Ville S ->"])
         ])
         self.register_map("house", portals=[
             Portal(from_world="house", origin_point="exit_house", target_world="world", teleport_point="enter_house_exit")
@@ -104,6 +105,24 @@ class MapManager:
 
                 else:
                     sprite.speed = 1 
+        
+        # Check player collisions with enemies
+        for enemy in self.get_map().enemies:
+            if self.player.feet.colliderect(enemy.feet):
+                self.player.move_back()  # Move the player back
+                if not self.enemy_collision:  # Trigger the animation only once
+                    self.player.play_death_animation("death_left")
+                    self.enemy_collision = True
+                return  # Exit the function after handling the collision
+
+        # Reset collision state if no collision
+        self.enemy_collision = False
+            # if isinstance(sprite, Enemy):
+            #     if sprite.rect.colliderect(self.player.rect):
+            #         self.player.change_animation("death_left")  # Trigger death_left animation
+            #         # Optionally, apply any effects of the collision here
+
+
 
     def teleport_player(self, name):
         point = self.get_object(name)
@@ -175,10 +194,45 @@ class MapManager:
                 panneau.load_points_P(map_data.tmx_data)
                 panneau.teleport_spawn_P()
 
+    def draw_text(screen, text_list, x, y, font, color, max_width):
+        for text in text_list:
+            words = text.split(' ')
+            lines = []
+            current_line = ""
+            
+            for word in words:
+                test_line = current_line + word + " "
+                # On teste si la ligne est trop longue pour la boîte de dialogue
+                if font.size(test_line)[0] <= max_width:
+                    current_line = test_line
+                else:
+                    lines.append(current_line)
+                    current_line = word + " "
+            
+            # Ajout de la dernière ligne
+            if current_line:
+                lines.append(current_line)
+
+            # Affiche chaque ligne séparément
+            for i, line in enumerate(lines):
+                rendered_text = font.render(line, True, color)
+                screen.blit(rendered_text, (x, y + i * 40))  # Espacement entre les lignes (ajuste selon tes besoins)
+    
     def draw(self):
         self.get_group().draw(self.screen)
         self.get_group().center(self.player.rect.center)
-    
+
+        # Display text from panels with line breaks
+        font = pygame.font.Font(None, 36)  # Adjust the font size as needed
+        color = (255, 255, 255)  # White color for the text
+
+        # for panneau in self.get_map().panneaux:
+        #     # Calculate the position to display the text (you might want to adjust this)
+        #     text_x = panneau.rect.x + panneau.rect.width // 2 - (len(panneau.dialog[0]) * 10) // 2
+        #     text_y = panneau.rect.y - 50  # Adjust the vertical offset as needed
+
+        #     self.game.draw_text(self.screen, panneau.dialog, text_x, text_y, font, color)
+
     def check_npc_collisions(self, dialog_box):
         enlarged_player_rect = self.player.rect.inflate(10, 10)
         if not self.dialog_box_triggered:

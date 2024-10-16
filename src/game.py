@@ -54,7 +54,12 @@ class Game:
             if isinstance(sprite, Enemy):
                 if self.player.rect.colliderect(sprite.rect):
                     print("Touched Enemy!")
-                    self.player.move_back_more()
+                    if self.player.action != 4:  # Check if the animation is not already playing
+                        self.player.action = 4  # Set the action to "death_left" animation
+                        self.player.frame = 0  # Reset the frame to the beginning of the animation
+                        self.player.animation_cooldown = 120  # Set the animation cooldown to control the speed of the animation
+                        self.player.move_back_more()
+                    break
     
     def run(self):
         clock = pygame.time.Clock()
@@ -67,13 +72,20 @@ class Game:
             self.map_manager.draw()
             self.dialog_box.render(self.screen)
 
+            # Update and display the player's animation
+            current_time = pygame.time.get_ticks()
+            if current_time - self.player.last_update >= self.player.animation_cooldown:
+                self.player.frame += 1
+                self.player.last_update = current_time
+
+                # Reset the frame if it exceeds the animation length
+                if self.player.frame >= len(self.player.animation_list[self.player.action]):
+                    self.player.frame = 0  # You may want to stop the animation here instead
+
+            self.screen.blit(self.player.animation_list[self.player.action][self.player.frame], self.player.rect.topleft)
+
             # afficher les elements sur l'ecran
             self.screen.blit(self.chat_coeur, self.chat_coeur_rect.topleft)
-
-            # if self.dialog_box.is_reading() or self.map_manager.is_npc_colliding():
-            #     for sprite in self.map_manager.get_group().sprites():
-            #         if isinstance(sprite, NPC):
-            #             sprite.load_bubble(True)
 
             if self.dialog_box.is_reading() or self.map_manager.is_npc_colliding():
                 for sprite in self.map_manager.get_group().sprites():
@@ -96,6 +108,8 @@ class Game:
                     elif event.y < 0:  # Zoom out
                         self.map_manager.zoom_level -= 1
                         self.map_manager.get_map().group.zoom -= 0.1
+                # Handle custom animation events in the player
+                self.player.handle_event(event)
 
             clock.tick(60)
 
@@ -104,7 +118,7 @@ class Game:
 class DialogOpen:
     def __init__(self):
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        self.player = Player()
+        # self.player = self.player
         self.map_manager = MapManager(self.screen, self.player)
 
         self.dialog_test_ini = pygame.image.load('dialogs/dialog_box.png').convert_alpha()

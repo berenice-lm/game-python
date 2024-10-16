@@ -1,5 +1,6 @@
 import pygame
 from animation import AnimateSprite
+from chat_sprite import SpriteSheet
 
 class Entity(AnimateSprite):
 
@@ -14,7 +15,7 @@ class Entity(AnimateSprite):
         self.old_position = self.position.copy()
 
     def save_location(self): self.old_position = self.position.copy()
-
+    
     def move_right(self): 
         self.change_animation("right")
         self.position[0] += self.speed
@@ -43,28 +44,64 @@ class Entity(AnimateSprite):
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.center
 
+    def slow_down(self):
+        # Calculate the distance to move back
+        distance_x = self.position[0] - self.old_position[0]
+        distance_y = self.position[1] - self.old_position[1]
+
+        # Move the player back by twice the distance
+        self.position[0] -= 0.5 * distance_x
+        self.position[1] -= 0.5 * distance_y
+
+        # Update the player's rectangle
+        self.rect.topleft = self.position
+        self.feet.midbottom = self.rect.center
+
     def move_back_more(self):
         # Calculate the distance to move back
         distance_x = self.position[0] - self.old_position[0]
         distance_y = self.position[1] - self.old_position[1]
 
         # Move the player back by twice the distance
-        self.position[0] -= 4 * distance_x
-        self.position[1] -= 4 * distance_y
+        self.position[0] -= 10 * distance_x
+        self.position[1] -= 10 * distance_y
 
         # Update the player's rectangle
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.center
+
+    def play_death_animation(self, animation_name):
+        if not self.is_dead:  # Check if the player is already dead
+            self.is_dead = True
+            self.change_animation(animation_name)
+
+            # Schedule a return to idle animation after the death animation completes
+            pygame.time.set_timer(pygame.USEREVENT + 1, 500)  # Delay of 500ms (adjust as needed)
+
+    def handle_event(self, event):
+        if event.type == pygame.USEREVENT + 1:  # Custom event triggered after animation
+            self.is_dead = False  # Reset death state
+            self.change_animation("idle")  # Return to idle animation
+            pygame.time.set_timer(pygame.USEREVENT + 1, 0)  # Stop the timer
         
 class Player(Entity):
     def __init__(self):
         super().__init__('chattest5', 0, 0)
+        self.is_dead = False
+        self.last_update = pygame.time.get_ticks()
+        self.animation_cooldown = 120
+        self.action = 0
+        self.frame = 0
+        # self.animation_list = load_animations()
+        sprite_sheet_image = pygame.image.load('sprites/cat/chat_principal.png').convert_alpha()
+        sprite_sheet = SpriteSheet(sprite_sheet_image)
+        self.animation_list = sprite_sheet.load_animations()
 
 class NPC(Entity):
 
     def __init__(self, name, nb_points, dialog):
         super().__init__(name, 0, 0)
-        self.player = Player()
+        # self.player = Player()
         self.nb_points = nb_points
         self.dialog = dialog
         self.points = []
@@ -125,7 +162,7 @@ class Enemy(Entity):
 
     def __init__(self, name, nb_points, dialog):
         super().__init__(name, 0, 0)
-        self.player = Player()
+        # self.player = Player()
         self.nb_points = nb_points
         self.dialog = dialog
         self.points = []
