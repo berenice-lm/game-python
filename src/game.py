@@ -6,16 +6,17 @@ import subprocess
 
 class Game:
 
-    def __init__(self):
+    def __init__(self, gameStateManager):
 
         # demarrage
         self.running = True
         self.map = "world"
+        self.gameStateManager = gameStateManager
         
         # creer la fenetre du jeu
         SCREENWIDTH, SCREENHEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
         self.screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
-        pygame.display.set_caption("My own adventure")
+        pygame.display.set_caption("CATographer")
 
         # generer un joueur
         self.player = Player()
@@ -98,9 +99,7 @@ class Game:
             #             self.map_manager.get_map().group.zoom -= 0.1
 
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                elif event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_f:
                         self.map_manager.check_npc_collisions(self.dialog_box)
                     elif event.key == pygame.K_COMMA:  # Vérifier si la touche "," est pressée
@@ -116,7 +115,8 @@ class Game:
 
             clock.tick(60)
 
-        pygame.quit()
+        # pygame.quit()
+        self.gameStateManager.set_state('menu') #revenir au menu lorsque l'on quitte le jeu principal
 
 class DialogOpen:
     def __init__(self):
