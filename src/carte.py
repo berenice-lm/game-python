@@ -26,7 +26,8 @@ class MapWindow(QtWidgets.QMainWindow):
     def close_window(self):
         self.close()  # Ferme la fenêtre
 
-# Initialiser l'application PyQt
-app = QtWidgets.QApplication(sys.argv)
-window = MapWindow()
-sys.exit(app.exec_())
+# Run the application only if this file is executed directly
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    window = MapWindow()
+    sys.exit(app.exec_())

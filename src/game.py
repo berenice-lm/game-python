@@ -2,7 +2,6 @@ import pygame
 from dialog import DialogBox
 from player import Enemy, MovingSprite, Player, NPC
 from map import MapManager
-import subprocess
 
 class Game:
 
@@ -84,27 +83,17 @@ class Game:
 
             pygame.display.flip() #actualiser en temps reel
 
-            # for event in pygame.event.get():
-            #     if event.type == pygame.QUIT:
-            #         self.running = False
-            #     elif event.type == pygame.KEYDOWN:
-            #         if event.key == pygame.K_f:
-            #             self.map_manager.check_npc_collisions(self.dialog_box)
-            #     elif event.type == pygame.MOUSEWHEEL:
-            #         if event.y > 0:  # Zoom in
-            #             self.map_manager.zoom_level += 1
-            #             self.map_manager.get_map().group.zoom += 0.1
-            #         elif event.y < 0:  # Zoom out
-            #             self.map_manager.zoom_level -= 1
-            #             self.map_manager.get_map().group.zoom -= 0.1
-
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_f:
                         self.map_manager.check_npc_collisions(self.dialog_box)
                     elif event.key == pygame.K_COMMA:  # Vérifier si la touche "," est pressée
                         print(", pressed")
-                        subprocess.Popen(['python', 'src\carte.py'])  # Lancer carte.py
+                        self.gameStateManager.set_state('map')
+                        self.running = False
+                        # subprocess.Popen(['python', 'src\carte.py'])  # Lancer carte.py
+                    elif event.key == pygame.K_ESCAPE:
+                        self.gameStateManager.set_state('menu') #revenir au menu lorsque l'on quitte le jeu principal
                 elif event.type == pygame.MOUSEWHEEL:
                     if event.y > 0:  # Zoom in
                         self.map_manager.zoom_level += 1
@@ -116,7 +105,8 @@ class Game:
             clock.tick(60)
 
         # pygame.quit()
-        self.gameStateManager.set_state('menu') #revenir au menu lorsque l'on quitte le jeu principal
+            
+        # self.gameStateManager.set_state('menu') #revenir au menu lorsque l'on quitte le jeu principal
 
 class DialogOpen:
     def __init__(self):
