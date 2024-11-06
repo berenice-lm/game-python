@@ -1,23 +1,27 @@
 import pygame, sys
 from game import Game
+from PyQt5 import QtWidgets, QtWebEngineWidgets, QtCore, QtGui
 
-# SCREENWIDTH, SCREENHEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
 FPS = 60
 
 class Start:
-    def __init__(self):
+    def __init__(self, gameStateManager):
         pygame.init()
+        self.gameStateManager = gameStateManager
         SCREENWIDTH, SCREENHEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
         self.screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
         self.clock = pygame.time.Clock()
 
-        self.gameStateManager = GameStateManager('menu')
+        # self.gameStateManager = GameStateManager('menu') #beginning state
         self.menu = Menu(self.screen, self.gameStateManager)
         self.game = Game_start(self.screen, self.gameStateManager)
         self.option = Option(self.screen, self.gameStateManager)
+        # self.map_window = MapWindow(self.gameStateManager) 
+        # self.map_window = MapWindow(self.screen, self.gameStateManager)
+        self.map_window = None
 
         # dictionnaire des états
-        self.states = {'menu':self.menu, 'game':self.game, 'option':self.option}
+        self.states = {'menu':self.menu, 'game':self.game, 'option':self.option, 'map':self.map_window}
 
     def run(self):
         while True:
@@ -26,8 +30,21 @@ class Start:
                     pygame.quit()
                     sys.exit()
 
-            # self.gameStateManager.run_with_fade(self.screen, self.states[self.gameStateManager.get_state()])
-            self.states[self.gameStateManager.get_state()].run()
+            current_state = self.states[self.gameStateManager.get_state()]
+            
+            # Handle map state separately since it’s a PyQt window
+            if self.gameStateManager.get_state() == 'map':
+                if self.map_window is None:
+                    self.map_window = MapWindow(self.gameStateManager)
+                    self.states['map'] = self.map_window
+                    self.map_window.show()
+            else:
+                if self.map_window is not None:
+                    self.map_window.close()
+                    self.map_window = None
+
+            if current_state is not None:
+                current_state.run()
 
             pygame.display.update()
             self.clock.tick(FPS)
@@ -39,7 +56,7 @@ class Game_start:
         
     def run(self):
         pygame.init()
-        game = Game()
+        game = Game(self.gameStateManager)
         game.run()
 
 class Option:
@@ -48,8 +65,7 @@ class Option:
         self.pressed = False
         self.gameStateManager = gameStateManager
         SCREENWIDTH, SCREENHEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
-        self.screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
-        self.clock = pygame.time.Clock()
+        self.screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT), pygame.FULLSCREEN)
         self.show_chat_blanc1 = False
         self.show_chat_blanc2 = False
         self.show_chat_blanc3 = False
@@ -456,7 +472,7 @@ class Menu:
 
         # Create the display surface using the screen size and FULLSCREEN flag
         SCREENWIDTH, SCREENHEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
-        self.screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
+        self.screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT), pygame.FULLSCREEN)
         self.clock = pygame.time.Clock()
 
         # Load the image
@@ -470,8 +486,6 @@ class Menu:
         self.button1 = ButtonM('Play', 200, 40, (590, 300), 6, 1)
         self.button2 = ButtonM('Options', 200, 40, (590, 400), 6, 2)
         self.button3 = ButtonM('Quit', 200, 40, (590, 500), 6, 3)
-
-        # self.chat_rect.topleft = (0, 0)
 
         # self.chat_mask = pygame.mask.from_surface(self.chat)
         # self.bullet = pygame.Surface((10, 10))
@@ -671,14 +685,113 @@ class ButtonM:
             self.dynamic_elevation = self.elevation
             self.top_color = '#65C244'
 
-class GameStateManager:
-    def __init__(self, currentState):
-        self.currentState = currentState
-    def get_state(self):
-        return self.currentState
-    def set_state(self, state):
-        self.currentState = state
+# class GameStateManager:
+#     def __init__(self, initialState='menu'):
+#         self.currentState = initialState
+#     def get_state(self):
+#         return self.currentState
+#     def set_state(self, state):
+#         self.currentState = state
 
+class GameStateManager:
+    def __init__(self, initial_state):
+        self.state = initial_state
+
+    def set_state(self, new_state):
+        print(f"Changing state to {new_state}")
+        self.state = new_state
+
+    def get_state(self):
+        return self.state
+
+class MapWindow1:
+    def __init__(self, display, gameStateManager):
+        self.display = display
+        self.gameStateManager = gameStateManager
+
+        self.clock = pygame.time.Clock()
+
+    def run(self):
+        running = True
+        while running:
+            self.display.fill('blue')  # Placeholder for the map content
+
+            # Event handling
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_COMMA:  # Exit on Escape key
+                        print("Escape pressed - returning to game state")
+                        self.gameStateManager.set_state('game')
+                        pygame.display.toggle_fullscreen()  # Toggle out of fullscreen
+                        running = False  # Exit loop
+
+            pygame.display.flip()  # Update display
+            self.clock.tick(60)  # Control frame rate
+
+class MapWindow(QtWidgets.QMainWindow):
+    def __init__(self, gameStateManager):
+        super().__init__()
+        self.setWindowTitle("Carte Multi-échelle")
+        self.gameStateManager = gameStateManager
+        self.clock = pygame.time.Clock()
+        
+        # self.resize(1024, 768)  # Width: 1024px, Height: 768px
+        self.showFullScreen()
+        # self.setWindowFlags(QtCore.Qt.Window)  # Ensure it's a regular window
+
+        # Create the WebEngine view
+        self.browser = QtWebEngineWidgets.QWebEngineView()
+        
+        # Load the URL
+        url = QtCore.QUrl("https://lostinzoom.huma-num.fr/seism/")
+        self.browser.setUrl(url)
+        
+        # Set the Web view as the central widget
+        self.setCentralWidget(self.browser)
+        
+        # Add an exit shortcut to close with the comma key
+        self.exit_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence(","), self)
+
+    def close_window(self):
+        print("Comma pressed - returning to game state")
+        self.gameStateManager.set_state('game')
+        pygame.display.toggle_fullscreen()  # Toggle out of fullscreen
+        self.close()  # Close the window
+
+    def run(self):
+        running = True
+        while running:
+            self.show()
+
+            if self.exit_shortcut:
+                self.exit_shortcut.activated.connect(self.close_window)
+                running = False
+
+            pygame.display.flip()  # Update display
+            self.clock.tick(60)  # Control frame rate
+
+    def close_window(self):
+        print("Comma pressed - returning to game state")
+        self.gameStateManager.set_state('game')
+        pygame.display.toggle_fullscreen()  # Toggle out of fullscreen
+        self.close()  # Close the window
+                                                                             
 if __name__ == '__main__':
-    game = Start()
-    game.run()
+    # game = Start()
+    # game.run()
+    app = QtWidgets.QApplication(sys.argv)
+
+    # Initialize your game state manager
+    game_state_manager = GameStateManager('menu')
+
+    # Create your Start instance
+    start_game = Start(game_state_manager)
+
+    # Run the main loop
+    start_game.run()
+
+    # Execute the application's event loop
+    sys.exit(app.exec_())

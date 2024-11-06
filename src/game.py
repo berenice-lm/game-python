@@ -5,16 +5,17 @@ from map import MapManager
 
 class Game:
 
-    def __init__(self):
+    def __init__(self, gameStateManager):
 
         # demarrage
         self.running = True
         self.map = "world"
+        self.gameStateManager = gameStateManager
         
         # creer la fenetre du jeu
         SCREENWIDTH, SCREENHEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
         self.screen = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
-        pygame.display.set_caption("My own adventure")
+        pygame.display.set_caption("CATographer")
 
         # generer un joueur
         self.player = Player()
@@ -25,6 +26,10 @@ class Game:
         self.chat_coeur_ini = pygame.image.load('map/cat_heart.png').convert_alpha()
         self.chat_coeur = pygame.transform.scale(self.chat_coeur_ini, (250, 80))
         self.chat_coeur_rect = self.chat_coeur.get_rect(topleft=(30, 20))
+
+        self.maps_icon_ini = pygame.image.load('map/maps_icon.png').convert_alpha()
+        self.maps_icon = pygame.transform.scale(self.maps_icon_ini, (120, 120))
+        self.maps_icon_rect = self.maps_icon.get_rect(topright=(1460, 20))
 
         # self.dialog_test_ini = pygame.image.load('dialogs/dialog_box.png').convert_alpha()
         # self.dialog_test = pygame.transform.scale(self.dialog_test_ini, (40, 30))
@@ -69,26 +74,26 @@ class Game:
 
             # afficher les elements sur l'ecran
             self.screen.blit(self.chat_coeur, self.chat_coeur_rect.topleft)
-
-            # if self.dialog_box.is_reading() or self.map_manager.is_npc_colliding():
-            #     for sprite in self.map_manager.get_group().sprites():
-            #         if isinstance(sprite, NPC):
-            #             sprite.load_bubble(True)
+            self.screen.blit(self.maps_icon, self.maps_icon_rect.topright)
 
             if self.dialog_box.is_reading() or self.map_manager.is_npc_colliding():
                 for sprite in self.map_manager.get_group().sprites():
                     if isinstance(sprite, NPC):
                         sprite.load_bubble(True)
 
-
             pygame.display.flip() #actualiser en temps reel
 
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                elif event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_f:
                         self.map_manager.check_npc_collisions(self.dialog_box)
+                    elif event.key == pygame.K_COMMA:  # Vérifier si la touche "," est pressée
+                        print(", pressed")
+                        self.gameStateManager.set_state('map')
+                        self.running = False
+                        # subprocess.Popen(['python', 'src\carte.py'])  # Lancer carte.py
+                    elif event.key == pygame.K_ESCAPE:
+                        self.gameStateManager.set_state('menu') #revenir au menu lorsque l'on quitte le jeu principal
                 elif event.type == pygame.MOUSEWHEEL:
                     if event.y > 0:  # Zoom in
                         self.map_manager.zoom_level += 1
@@ -99,7 +104,9 @@ class Game:
 
             clock.tick(60)
 
-        pygame.quit()
+        # pygame.quit()
+            
+        # self.gameStateManager.set_state('menu') #revenir au menu lorsque l'on quitte le jeu principal
 
 class DialogOpen:
     def __init__(self):
