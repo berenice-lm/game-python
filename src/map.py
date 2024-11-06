@@ -30,16 +30,16 @@ class MapManager:
         self.current_map = "world"
         self.dialog_box_triggered = False
         # self.map_zoom_out = pygame.image.load('map/carte_dezoom.png').convert_alpha()
-        self.zoom_level = 3  # Initial zoom level
+        self.zoom_level = 4  # Initial zoom level
 
         self.register_map("world", portals=[
             Portal(from_world="world", origin_point="enter_house", target_world="house", teleport_point="spawn_house"),
             Portal(from_world="world", origin_point="enter_house2", target_world="house2", teleport_point="spawn_house"),
-            Portal(from_world="world", origin_point="enter_dungeon", target_world="dungeon", teleport_point="spawn_dungeon"),
+            Portal(from_world="world", origin_point="enter_dungeon", target_world="map_nord", teleport_point="spawn_dungeon"),
             Portal(from_world="world", origin_point="enter_map2", target_world="labyrinthe", teleport_point="spawn_map2")
         ], npcs=[
-            NPC("papy", nb_points=4, dialog=["Saluuuut, t'arrives à faire tes tests ?", "deuxième bulle", "... et la troisième"]),
-            NPC("red", nb_points=1, dialog=["I'm a bad guy !"]),
+            NPC("papy", nb_points=4, dialog=["Salut, quelque chose ne va pas ?", "Ah mince, je ne suis pas d'ici. Je ne peux pas t'aider", "Mais j'ai perdu une boucle d'oreille ici...", "Je galère un peu :("]),
+            NPC("red", nb_points=1, dialog=["Que voulez-vous ?", "Vous êtes perdu ? Etonnant", "On se trouve à Ville machin, ici", "Si vous ne savez pas ou c'est, suivre la rivière truc", "Elle prend sa source à Grande Ville", "Elle passe pas très loin d'ici, en traversant un PNR", "Mince...je ne sais plus comment il s'appelle", "Je crois qu'il a des chemins en forme d'étoile", "Bon courage !"]),
             # NPC("boss", nb_points=2, dialog=["test"]),
         ], movingsprites=[
             MovingSprite("smoke", 270, 367),
@@ -47,18 +47,20 @@ class MapManager:
         ], enemies=[
             Enemy("boss", nb_points=1, dialog=[])
         ], panneaux=[
-            Panneau("panneau", nb_points=1, dialog=["N'allez pas par là !"])
+            Panneau("panneau", nb_points=1, dialog=["Nord : Ville machin", "Est : Ville truc"])
         ])
         self.register_map("house", portals=[
             Portal(from_world="house", origin_point="exit_house", target_world="world", teleport_point="enter_house_exit")
+        ], npcs=[
+            NPC("red", nb_points=1, dialog=["Vous êtes réveillé ?", "Bla bla bla sur comment on est là", "Vous avez une note : la voici"])
         ])
         self.register_map("house2", portals=[
             Portal(from_world="house2", origin_point="exit_house", target_world="world", teleport_point="exit_house2")
-        ])
-        self.register_map("dungeon", portals=[
-            Portal(from_world="dungeon", origin_point="exit_dungeon", target_world="world", teleport_point="dungeon_exit_spawn")
+         ])
+        self.register_map("map_nord", portals=[
+            Portal(from_world="map_nord", origin_point="exit_dungeon", target_world="world", teleport_point="dungeon_exit_spawn")
         ], npcs=[
-            # NPC("boss", nb_points=2, dialog=["Mouhahahahah", "T'aurais pas du sh*t ?"])
+            NPC("boss", nb_points=2, dialog=["N'ALLEZ PAS PAR LA !!!"])
         ])
         self.register_map("labyrinthe", portals=[
             Portal(from_world="labyrinthe", origin_point="exit_map2", target_world="world", teleport_point="exit_map2_spawn"),
@@ -116,7 +118,7 @@ class MapManager:
         tmx_data = pytmx.util_pygame.load_pygame(f"map/{name}.tmx")
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
-        map_layer.zoom = 3
+        map_layer.zoom = 4
 
         # definir liste qui stocke les rectangles de collision
         walls = []

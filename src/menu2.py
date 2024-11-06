@@ -476,16 +476,16 @@ class Menu:
         self.clock = pygame.time.Clock()
 
         # Load the image
-        self.chat_init1 = pygame.image.load('map/background_vert.png').convert_alpha()
+        self.chat_init1 = pygame.image.load('map/background_vert1.png').convert_alpha()
         self.chat_init = pygame.transform.scale(self.chat_init1, (SCREENWIDTH, SCREENHEIGHT))
 
         # Use the image without scaling
         self.chat = self.chat_init
         self.chat_rect = self.chat.get_rect()
 
-        self.button1 = ButtonM('Play', 200, 40, (590, 300), 6, 1)
-        self.button2 = ButtonM('Options', 200, 40, (590, 400), 6, 2)
-        self.button3 = ButtonM('Quit', 200, 40, (590, 500), 6, 3)
+        self.button1 = ButtonM('Play', 250, 45, (790, 350), 6, 1)
+        self.button2 = ButtonM('Options', 250, 45, (790, 480), 6, 2)
+        self.button3 = ButtonM('Quit', 250, 45, (790, 610), 6, 3)
 
         # self.chat_mask = pygame.mask.from_surface(self.chat)
         # self.bullet = pygame.Surface((10, 10))

@@ -584,6 +584,6 @@
   <object id="87" name="panneau_path1" x="192.5" y="192.333" width="15.125" height="15.2917"/>
   <object id="90" name="smoke_path1" x="272.735" y="367.053" width="16.3333" height="15"/>
   <object id="93" name="red_path1" x="414" y="415.5" width="16.5" height="16"/>
-  <object id="96" name="boss_path1" x="192.091" y="511.205" width="16.75" height="16.75"/>
+  <object id="96" name="boss_path1" x="98.091" y="576.705" width="16.75" height="16.75"/>
  </objectgroup>
 </map>
