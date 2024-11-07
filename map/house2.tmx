@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="16">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="25" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="18">
  <tileset firstgid="1" source="nature.tsx"/>
  <tileset firstgid="721" source="Tileset_16x16_2.tsx"/>
  <tileset firstgid="821" source="Interiors_free_32x32.tsx"/>
@@ -129,12 +129,12 @@
   <object id="2" type="collision" x="111.857" y="64.9652" width="15.6307" height="126.023"/>
   <object id="3" type="collision" x="31.7499" y="174.869" width="127.977" height="16.1192"/>
   <object id="4" type="collision" x="31.2614" y="190.499" width="17.5846" height="161.68"/>
-  <object id="5" type="collision" x="192.453" y="174.38" width="157.119" height="34.0846"/>
+  <object id="5" type="collision" x="192.453" y="174.38" width="157.119" height="30.8346"/>
   <object id="6" type="collision" x="382.953" y="63.9883" width="16.1192" height="127.488"/>
   <object id="7" type="collision" x="350.226" y="190.988" width="17.0961" height="162.169"/>
   <object id="8" type="collision" x="30.773" y="335.084" width="337.037" height="17.0961"/>
   <object id="9" type="collision" x="100.623" y="201.246" width="21.9807" height="19.5384"/>
-  <object id="10" type="collision" x="308.218" y="232.019" width="23.4461" height="21.9807"/>
+  <object id="10" type="collision" x="351.718" y="175.519" width="29.9461" height="14.4807"/>
   <object id="11" name="exit_house" x="274.515" y="314.568" width="27.8422" height="15.1423"/>
   <object id="12" name="spawn_house" x="273.049" y="280.865">
    <point/>

@@ -27,13 +27,9 @@ class Game:
         self.chat_coeur = pygame.transform.scale(self.chat_coeur_ini, (250, 80))
         self.chat_coeur_rect = self.chat_coeur.get_rect(topleft=(30, 20))
 
-        self.maps_icon_ini = pygame.image.load('map/maps_icon.png').convert_alpha()
-        self.maps_icon = pygame.transform.scale(self.maps_icon_ini, (120, 120))
-        self.maps_icon_rect = self.maps_icon.get_rect(topright=(1460, 20))
-
-        # self.dialog_test_ini = pygame.image.load('dialogs/dialog_box.png').convert_alpha()
-        # self.dialog_test = pygame.transform.scale(self.dialog_test_ini, (40, 30))
-        # self.dialog_test_rect = self.dialog_test.get_rect(topleft=(290, 200))
+        # self.maps_icon_ini = pygame.image.load('map/maps_icon.png').convert_alpha()
+        # self.maps_icon = pygame.transform.scale(self.maps_icon_ini, (120, 120))
+        # self.maps_icon_rect = self.maps_icon.get_rect(topright=(1460, 20))
         
     def handle_input(self):
         pressed = pygame.key.get_pressed()
@@ -74,7 +70,7 @@ class Game:
 
             # afficher les elements sur l'ecran
             self.screen.blit(self.chat_coeur, self.chat_coeur_rect.topleft)
-            self.screen.blit(self.maps_icon, self.maps_icon_rect.topright)
+            # self.screen.blit(self.maps_icon, self.maps_icon_rect.topright)
 
             if self.dialog_box.is_reading() or self.map_manager.is_npc_colliding():
                 for sprite in self.map_manager.get_group().sprites():

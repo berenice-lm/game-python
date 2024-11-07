@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="8">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="9">
  <tileset firstgid="1" source="nature.tsx"/>
  <tileset firstgid="721" source="deco_interieur.tsx"/>
  <tileset firstgid="851" source="old town.tsx"/>
@@ -274,10 +274,10 @@
 </data>
  </layer>
  <objectgroup id="8" name="Objects">
-  <object id="1" type="collision" x="368" y="729" width="97" height="10.0303"/>
+  <object id="1" type="collision" x="368" y="729" width="97" height="22.3939"/>
   <object id="2" type="collision" x="367.667" y="740.03" width="5.33333" height="59.9697"/>
   <object id="3" type="collision" x="458.333" y="740.182" width="5.66667" height="59.8182"/>
-  <object id="6" name="exit_dungeon" x="402.583" y="789.583" width="10.75" height="9"/>
+  <object id="6" name="exit_dungeon" x="375.128" y="796.492" width="80.5682" height="2.09091"/>
   <object id="7" name="spawn_dungeon" x="412.625" y="776.625">
    <point/>
   </object>
